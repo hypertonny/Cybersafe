@@ -1,453 +1,528 @@
-import React, { useState } from 'react';
-import { 
-  Shield, AlertTriangle, CheckCircle, Info, Image, 
-  FileText, Link as LinkIcon, File, ArrowRight, Lock, 
-  Globe, Laptop, Network, Mail, Users, Check
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Shield, AlertTriangle, CheckCircle, Info,
+  Image as ImageIcon, FileText, Link as LinkIcon,
+  File, ArrowRight, Lock, Globe, Laptop,
+  Network, Mail, Users, Check, Upload
 } from 'lucide-react';
 
+/* ─── Preset test samples ─── */
 const PRESETS = [
   {
-    name: "Urgent PayPal Scam",
+    name: "PayPal Phishing Email",
     type: "text",
     payload: "From: PayPal Security <support@paypa1-alert.xyz>\nURGENT: Your account has been suspended! Immediate action required within 24 hours. Enter your password and verify OTP at http://paypa1-alert.xyz/restore to unlock your balance."
   },
   {
-    name: "Obfuscated Shortlink",
+    name: "Obfuscated Short Link",
     type: "url",
     payload: "http://bit.ly/secure-account-verification-2026"
   },
   {
-    name: "Dangerous Invoice Attachment",
+    name: "Suspicious Invoice File",
     type: "file",
-    payload: "UEsDBBQAAAAIAAAAAAAAAAAAAAAAAAAAAA==" // sample base64 representation
+    payload: "UEsDBBQAAAAIAAAAAAAAAAAAAAAAAAAAAA=="
   },
   {
-    name: "Legitimate Meeting Note",
+    name: "Safe Team Message",
     type: "text",
     payload: "Hi team, please find attached the agenda for tomorrow's architecture review. The project repository is at https://github.com/hypertonny/Cybersafe. Looking forward to our discussion."
   }
 ];
 
-const THREAT_CATEGORIES = [
-  { id: "phishing", name: "Phishing", sub: "Emails, Messages", icon: Mail, color: "#1e40af" },
-  { id: "malware", name: "Malware", sub: "Attachments, Files", icon: AlertTriangle, color: "#dc2626" },
-  { id: "malicious_url", name: "Malicious URLs", sub: "Websites, Links", icon: LinkIcon, color: "#0284c7" },
-  { id: "social_engineering", name: "Social Engineering", sub: "SCAM detection", icon: Users, color: "#7c3aed" },
-  { id: "account_security", name: "Account Security", sub: "Passwords, MFA", icon: Lock, color: "#1e40af" },
-  { id: "device_security", name: "Device Security", sub: "OS Configuration", icon: Laptop, color: "#0284c7" },
-  { id: "network_threat", name: "Network Threats", sub: "MITM, Port Scan", icon: Network, color: "#0891b2" },
-  { id: "web_security", name: "Web Security", sub: "SQLi, XSS, SSL/TLS", icon: Globe, color: "#0d9488" }
+/* ─── Threat categories (Section 4) ─── */
+const THREATS = [
+  { id: "phishing", name: "Phishing", sub: "Emails & Messages", icon: Mail, bg: "#ECF4FE", color: "#0071E3" },
+  { id: "malware", name: "Malware", sub: "Attachments & Files", icon: AlertTriangle, bg: "#FFF1F0", color: "#FF3B30" },
+  { id: "malicious_url", name: "Malicious URLs", sub: "Websites & Links", icon: LinkIcon, bg: "#ECF4FE", color: "#5856D6" },
+  { id: "social_engineering", name: "Social Engineering", sub: "Scam Detection", icon: Users, bg: "#F3EEFF", color: "#AF52DE" },
+  { id: "account_security", name: "Account Security", sub: "Passwords & MFA", icon: Lock, bg: "#ECF4FE", color: "#0071E3" },
+  { id: "device_security", name: "Device Security", sub: "OS Configuration", icon: Laptop, bg: "#ECF4FE", color: "#32ADE6" },
+  { id: "network_threats", name: "Network Threats", sub: "MITM, Port Scan", icon: Network, bg: "#ECF4FE", color: "#0071E3" },
+  { id: "web_security", name: "Web Security", sub: "SQLi, XSS, SSL/TLS", icon: Globe, bg: "#F0FFF4", color: "#34C759" },
 ];
 
+/* ─── Default analysis result (demo) ─── */
+const DEFAULT_RESULT = {
+  analysis_id: "demo-sample-01",
+  risk_assessment: {
+    risk_level: "high",
+    risk_score: 0.88,
+    confidence: 0.94,
+    category: "phishing",
+    signals: ["urgent_language", "credential_solicitation", "sender_mismatch", "suspicious_link"],
+  },
+  explanation: {
+    simple: "This message is probably a scam. The sender is trying to make you click a link and give away your personal information like your password or OTP.",
+    detailed: "Our security engines identified critical phishing signals with 94% confidence. The sender claims to be PayPal but sends from an unauthorized domain registered only recently. The urgent deadline is designed to bypass your normal security judgement.",
+    technical: "Verdict: HIGH (score: 0.880, confidence: 0.94). Classification: phishing. Signals: [urgent_language, credential_solicitation, sender_mismatch, suspicious_link]. Domain heuristics: registration < 48h. Target URL lacks valid SSL."
+  },
+  why_suspicious: [
+    "Urgent language demanding immediate action",
+    "Suspicious link — not from an official PayPal domain",
+    "Requests confidential information (password, OTP)",
+    "Sender identity appears fake and mismatched"
+  ],
+  what_could_happen: "Your personal information could be stolen, leading to account compromise or financial loss.",
+  action_plan: {
+    what_to_do: [
+      "Do not click the link.",
+      "Do not share your password, OTP, or personal details.",
+      "Verify through the official website or contact the organisation directly.",
+      "If you already entered your details, change your password immediately."
+    ]
+  }
+};
+
+/* ─── Risk Gauge SVG component ─── */
+function RiskGauge({ score, riskLevel }) {
+  const radius = 26;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - score * circumference;
+  return (
+    <div className="risk-gauge">
+      <svg className="gauge-svg" viewBox="0 0 72 72">
+        <circle className="gauge-bg" cx="36" cy="36" r={radius} />
+        <circle
+          className="gauge-fill"
+          cx="36" cy="36" r={radius}
+          style={{ strokeDasharray: circumference, strokeDashoffset: offset }}
+        />
+      </svg>
+      <div className="gauge-label">
+        <span>{Math.round(score * 100)}%</span>
+        <span className="gauge-sub">Conf</span>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main App ─── */
 export default function App() {
-  const [inputType, setInputType] = useState('text');
-  const [payload, setPayload] = useState(PRESETS[0].payload);
-  const [whoAreYou, setWhoAreYou] = useState('personal_user');
-  const [technicalLevel, setTechnicalLevel] = useState('simple');
-  const [focusArea, setFocusArea] = useState('emails_messages');
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('simple');
-  const [completedSteps, setCompletedSteps] = useState({});
+  const [inputType, setInputType]       = useState('text');
+  const [payload, setPayload]           = useState(PRESETS[0].payload);
+  const [whoAreYou, setWhoAreYou]       = useState('personal_user');
+  const [techLevel, setTechLevel]       = useState('simple');
+  const [focusArea, setFocusArea]       = useState('emails_messages');
+  const [isLoading, setIsLoading]       = useState(false);
+  const [activeTab, setActiveTab]       = useState('simple');
+  const [doneSteps, setDoneSteps]       = useState({});
+  const [result, setResult]             = useState(DEFAULT_RESULT);
 
-  // Default Analysis result matching PRD & Infographic
-  const [analysisResult, setAnalysisResult] = useState({
-    analysis_id: "demo-sample-01",
-    risk_assessment: {
-      risk_level: "high",
-      risk_score: 0.88,
-      confidence: 0.94,
-      category: "phishing",
-      signals: ["urgent_language", "credential_solicitation", "sender_mismatch", "suspicious_link"],
-      evidence_collection: [
-        { reason: "Urgent language demanding immediate action under threat of penalty", source: "rules_engine" },
-        { reason: "Suspicious link (not from official domain: 'paypa1-alert.xyz')", source: "security_checks" },
-        { reason: "Requests confidential information (passwords, OTP)", source: "rules_engine" },
-        { reason: "Sender identity appears fake and mismatched", source: "rules_engine" }
-      ],
-      extracted_url: "http://paypa1-alert.xyz/restore"
-    },
-    explanation: {
-      simple: "This message is probably a scam. The sender is trying to make you click a link and give away your personal information like your password or OTP.",
-      detailed: "Our security engines identified critical phishing signals with 94% confidence. The sender claims to be PayPal but sends from an unauthorized domain registered only recently. The urgent deadline is designed to bypass security scrutiny.",
-      technical: "Verdict: HIGH (score: 0.880, confidence: 0.94). Classification: phishing. Signals: [urgent_language, credential_solicitation, sender_mismatch, suspicious_link]. Domain heuristics show new registration < 48 hours. Target URL lacks valid SSL certificate."
-    },
-    why_suspicious: [
-      "Urgent language demanding immediate action",
-      "Suspicious link (not from official domain)",
-      "Requests confidential information",
-      "Sender identity appears fake"
-    ],
-    what_could_happen: "Your personal information could be stolen, leading to account compromise or financial loss.",
-    action_plan: {
-      what_happened: "You received a fraudulent phishing message designed to steal your credentials.",
-      why_risky: "Submitting details will result in unauthorized account takeover and potential monetary loss.",
-      what_to_do: [
-        "Do not click the link.",
-        "Do not share your password, OTP or personal details.",
-        "Verify through the official website or contact the organization directly.",
-        "If you already entered your details, change your password immediately."
-      ]
-    }
-  });
+  const riskLevel  = result?.risk_assessment?.risk_level || 'low';
+  const confidence = result?.risk_assessment?.confidence || 0.9;
 
-  const handleRunAnalysis = async () => {
+  const handleAnalyze = async () => {
     setIsLoading(true);
+    setDoneSteps({});
     try {
-      const response = await fetch('/api/v1/analyze', {
+      const res = await fetch('/api/v1/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           input_type: inputType,
-          payload: payload,
+          payload,
           user_preferences: {
             who_are_you: whoAreYou,
-            technical_level: technicalLevel,
+            technical_level: techLevel,
             focus_area: [focusArea]
           }
         })
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setAnalysisResult(data);
-        setActiveTab(technicalLevel);
-        setCompletedSteps({});
+      if (res.ok) {
+        const data = await res.json();
+        setResult(data);
+        setActiveTab(techLevel);
       } else {
-        const err = await response.json();
-        alert(`Analysis error: ${err.detail || 'Failed to analyze'}`);
+        const err = await res.json().catch(() => ({}));
+        alert(`Analysis error: ${err.detail || 'Failed to analyze. Please try again.'}`);
       }
-    } catch (e) {
-      console.warn("Backend API unavailable, using client-side simulated analysis:", e);
-      // Client-side fallback if backend not running on port 8000
+    } catch {
+      // Backend offline — keep showing current result (demo mode)
     } finally {
       setIsLoading(false);
     }
   };
 
-  const toggleStep = (idx) => {
-    setCompletedSteps(prev => ({
-      ...prev,
-      [idx]: !prev[idx]
-    }));
-  };
+  const toggleStep = (idx) =>
+    setDoneSteps(prev => ({ ...prev, [idx]: !prev[idx] }));
 
-  const riskLevel = analysisResult?.risk_assessment?.risk_level || 'low';
-  const confidence = Math.round((analysisResult?.risk_assessment?.confidence || 0.9) * 100);
+  const getRiskIcon = () => {
+    if (riskLevel === 'high')   return <AlertTriangle />;
+    if (riskLevel === 'medium') return <Info />;
+    return <CheckCircle />;
+  };
 
   return (
     <div className="app-root">
-      {/* Header */}
+
+      {/* ── HEADER ── */}
       <header className="app-header">
-        <div className="header-container">
-          <div className="brand-section">
-            <Shield className="brand-icon" />
-            <div>
-              <h1 className="brand-title">CyberSafe</h1>
-              <p className="brand-tagline">Think Before You Click • Upload • Analyze • Understand • Stay Safe</p>
-            </div>
+        <div className="header-inner">
+          <div className="brand">
+            <Shield className="brand-shield" />
+            <span className="brand-name">CyberSafe</span>
+            <span className="brand-dot" />
+            <span className="header-tagline">Think Before You Click</span>
           </div>
-          <div className="vision-card">
-            <div className="vision-quote">"A safer digital world for everyone"</div>
-            <div className="vision-sub">To make cybersecurity simple, accessible, and actionable for every internet user.</div>
-          </div>
+          <span className="header-badge">AI-Powered Security</span>
         </div>
       </header>
 
-      {/* Main Container */}
+      {/* ── HERO ── */}
+      <section className="hero">
+        <p className="hero-eyebrow">An AI-Powered Cybersecurity Assistant for Everyone</p>
+        <h1 className="hero-title">
+          Stay safe from <em>every</em> digital threat.
+        </h1>
+        <p className="hero-sub">
+          Paste a suspicious message, URL, or upload a file — and get a clear,
+          plain-language security verdict in seconds.
+        </p>
+        <div className="hero-flow-pills">
+          <div className="flow-pill">
+            <Upload size={14} />
+            Upload
+          </div>
+          <span className="flow-arrow">→</span>
+          <div className="flow-pill">
+            <Shield size={14} />
+            Analyze
+          </div>
+          <span className="flow-arrow">→</span>
+          <div className="flow-pill">
+            <FileText size={14} />
+            Understand
+          </div>
+          <span className="flow-arrow">→</span>
+          <div className="flow-pill">
+            <CheckCircle size={14} />
+            Stay Safe
+          </div>
+        </div>
+      </section>
+
+      {/* ── MAIN ── */}
       <main className="main-content">
-        <div className="top-grid">
-          {/* Left Column: Input & Preferences */}
-          <div className="card-panel">
-            <div className="panel-header">
-              <div className="panel-number">1</div>
-              <div className="panel-title">User Input & Preferences</div>
+        <div className="analysis-grid">
+
+          {/* ── PANEL 1: Input & Preferences ── */}
+          <div className="card">
+            <div className="card-header">
+              <div className="card-step-number">1</div>
+              <span className="card-title">Submit Your Content</span>
             </div>
+            <div className="card-body">
 
-            {/* Input Selection Tabs */}
-            <div className="input-tabs">
-              <button 
-                className={`input-tab-btn ${inputType === 'screenshot' ? 'active' : ''}`}
-                onClick={() => { setInputType('screenshot'); setPayload('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII='); }}
-              >
-                <Image size={18} />
-                <span>Screenshot</span>
-              </button>
-              <button 
-                className={`input-tab-btn ${inputType === 'text' ? 'active' : ''}`}
-                onClick={() => { setInputType('text'); setPayload(PRESETS[0].payload); }}
-              >
-                <FileText size={18} />
-                <span>Text</span>
-              </button>
-              <button 
-                className={`input-tab-btn ${inputType === 'url' ? 'active' : ''}`}
-                onClick={() => { setInputType('url'); setPayload(PRESETS[1].payload); }}
-              >
-                <LinkIcon size={18} />
-                <span>URL</span>
-              </button>
-              <button 
-                className={`input-tab-btn ${inputType === 'file' ? 'active' : ''}`}
-                onClick={() => { setInputType('file'); setPayload('JVBERi0xLjQKJcTl8uXrp/Og0MTGCjEgMCBvYmoKPDwKL0tpZHM='); }}
-              >
-                <File size={18} />
-                <span>File (Opt)</span>
-              </button>
-            </div>
-
-            {/* Input Form Fields */}
-            {inputType === 'text' && (
-              <textarea 
-                className="textarea-input"
-                placeholder="Paste suspicious email, SMS, or message content here..."
-                value={payload}
-                onChange={(e) => setPayload(e.target.value)}
-              />
-            )}
-
-            {inputType === 'url' && (
-              <input 
-                type="text"
-                className="url-input-field"
-                placeholder="Enter suspicious website URL (e.g. https://...)"
-                value={payload}
-                onChange={(e) => setPayload(e.target.value)}
-              />
-            )}
-
-            {(inputType === 'screenshot' || inputType === 'file') && (
-              <div className="dropzone">
-                <Image size={32} style={{ margin: '0 auto 0.5rem', color: '#64748b' }} />
-                <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>Drag & drop your {inputType} here or click to browse</p>
-                <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Max 15MB. Encrypted and processed in transient memory.</p>
-              </div>
-            )}
-
-            {/* Quick Presets */}
-            <div className="presets-container">
-              <div className="presets-label">Test Samples (Click to load)</div>
-              <div className="presets-grid">
-                {PRESETS.map((p, idx) => (
-                  <button 
-                    key={idx} 
-                    className="preset-chip"
+              {/* Input type selector */}
+              <div className="input-type-grid">
+                {[
+                  { key: 'screenshot', label: 'Screenshot', Icon: ImageIcon },
+                  { key: 'text',       label: 'Text',       Icon: FileText },
+                  { key: 'url',        label: 'URL',        Icon: LinkIcon },
+                  { key: 'file',       label: 'File',       Icon: File },
+                ].map(({ key, label, Icon }) => (
+                  <button
+                    key={key}
+                    className={`input-type-btn ${inputType === key ? 'active' : ''}`}
                     onClick={() => {
-                      setInputType(p.type);
-                      setPayload(p.payload);
+                      setInputType(key);
+                      if (key === 'text') setPayload(PRESETS[0].payload);
+                      if (key === 'url')  setPayload(PRESETS[1].payload);
+                      if (key === 'file') setPayload(PRESETS[2].payload);
+                      if (key === 'screenshot') setPayload('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=');
                     }}
                   >
-                    {p.name}
+                    <Icon />
+                    {label}
                   </button>
                 ))}
               </div>
-            </div>
 
-            {/* User Preferences Box */}
-            <div className="preferences-box">
-              <div>
-                <label className="pref-label">1. Who are you?</label>
-                <select 
-                  className="persona-select"
-                  value={whoAreYou}
-                  onChange={(e) => setWhoAreYou(e.target.value)}
-                >
-                  <option value="student">Student</option>
-                  <option value="professional">Professional</option>
-                  <option value="personal_user">Personal User</option>
-                </select>
-              </div>
+              {/* Input area */}
+              {inputType === 'text' && (
+                <textarea
+                  className="textarea-input"
+                  placeholder="Paste suspicious email, SMS, or any message content here…"
+                  value={payload}
+                  onChange={e => setPayload(e.target.value)}
+                />
+              )}
+              {inputType === 'url' && (
+                <input
+                  type="text"
+                  className="url-input"
+                  placeholder="Enter a suspicious URL, e.g. https://…"
+                  value={payload}
+                  onChange={e => setPayload(e.target.value)}
+                />
+              )}
+              {(inputType === 'screenshot' || inputType === 'file') && (
+                <div className="dropzone">
+                  <Upload className="dropzone-icon" />
+                  <p className="dropzone-primary">
+                    Drag & drop your {inputType} here, or click to browse
+                  </p>
+                  <p className="dropzone-secondary">
+                    Max 15 MB · Encrypted in transit · Never stored
+                  </p>
+                </div>
+              )}
 
+              {/* Test samples */}
               <div>
-                <label className="pref-label">2. How technical should the explanation be?</label>
-                <div className="segmented-toggle">
-                  <button 
-                    className={`segment-btn ${technicalLevel === 'simple' ? 'active simple' : ''}`}
-                    onClick={() => setTechnicalLevel('simple')}
-                  >
-                    Simple (Non-technical)
-                  </button>
-                  <button 
-                    className={`segment-btn ${technicalLevel === 'detailed' ? 'active detailed' : ''}`}
-                    onClick={() => setTechnicalLevel('detailed')}
-                  >
-                    Detailed (Balanced)
-                  </button>
-                  <button 
-                    className={`segment-btn ${technicalLevel === 'technical' ? 'active technical' : ''}`}
-                    onClick={() => setTechnicalLevel('technical')}
-                  >
-                    Technical (Advanced)
-                  </button>
+                <p className="presets-label">Quick test samples</p>
+                <div className="presets-grid">
+                  {PRESETS.map((p, i) => (
+                    <button
+                      key={i}
+                      className="preset-chip"
+                      onClick={() => { setInputType(p.type); setPayload(p.payload); }}
+                    >
+                      {p.name}
+                    </button>
+                  ))}
                 </div>
               </div>
-            </div>
 
-            {/* Primary CTA */}
-            <button 
-              className="analyze-cta"
-              disabled={isLoading}
-              onClick={handleRunAnalysis}
-            >
-              {isLoading ? "Running Security Pipeline..." : (
-                <>
-                  <span>Analyze Content</span>
-                  <ArrowRight size={18} />
-                </>
-              )}
-            </button>
+              {/* User preferences */}
+              <div className="prefs-section">
+                <div className="pref-row">
+                  <label className="pref-label">Who are you?</label>
+                  <select
+                    className="persona-select"
+                    value={whoAreYou}
+                    onChange={e => setWhoAreYou(e.target.value)}
+                  >
+                    <option value="student">Student</option>
+                    <option value="professional">Professional</option>
+                    <option value="personal_user">Personal User</option>
+                  </select>
+                </div>
+
+                <div className="pref-row">
+                  <label className="pref-label">Explanation style</label>
+                  <div className="segmented-control">
+                    {[
+                      { key: 'simple',    label: 'Simple' },
+                      { key: 'detailed',  label: 'Detailed' },
+                      { key: 'technical', label: 'Technical' },
+                    ].map(({ key, label }) => (
+                      <button
+                        key={key}
+                        className={`seg-btn ${techLevel === key ? `active ${key}` : ''}`}
+                        onClick={() => setTechLevel(key)}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pref-row">
+                  <label className="pref-label">Focus area (optional)</label>
+                  <select
+                    className="persona-select"
+                    value={focusArea}
+                    onChange={e => setFocusArea(e.target.value)}
+                  >
+                    <option value="emails_messages">Emails & Messages</option>
+                    <option value="websites_links">Websites & Links</option>
+                    <option value="account_security">Account Security</option>
+                    <option value="device_security">Device Security</option>
+                    <option value="network_security">Network Security</option>
+                    <option value="everything">Everything</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Primary CTA */}
+              <button
+                className="analyze-btn"
+                onClick={handleAnalyze}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <><div className="spinner" /> Analyzing…</>
+                ) : (
+                  <><span>Analyze Content</span><ArrowRight /></>
+                )}
+              </button>
+
+            </div>
           </div>
 
-          {/* Right Column: Analysis Output (Matches Infographic Panel 3) */}
-          <div className="card-panel">
-            <div className="panel-header">
-              <div className="panel-number">3</div>
-              <div className="panel-title">Analysis Output (Results)</div>
+          {/* ── PANEL 3: Analysis Output ── */}
+          <div className="card">
+            <div className="card-header">
+              <div className="card-step-number">3</div>
+              <span className="card-title">Security Analysis</span>
             </div>
+            <div className="card-body">
+              <div className="results-panel">
 
-            <div className="results-container">
-              {/* Risk Level Banner */}
-              <div className={`risk-banner ${riskLevel}`}>
-                <div className="risk-title-group">
-                  <div className="risk-icon-box">
-                    <AlertTriangle size={24} />
-                  </div>
-                  <div>
-                    <div className="risk-text-title">{riskLevel} RISK</div>
-                    <div className="risk-category-badge">
-                      {analysisResult?.risk_assessment?.category?.replace('_', ' ').toUpperCase()} / THREAT
+                {/* Risk header with gauge */}
+                <div className={`risk-header ${riskLevel}`}>
+                  <div className="risk-left">
+                    <div className="risk-icon-wrap">
+                      {getRiskIcon()}
+                    </div>
+                    <div>
+                      <div className="risk-level-text">{riskLevel} Risk</div>
+                      <div className="risk-category">
+                        {result?.risk_assessment?.category?.replace('_', ' ')} · Threat Detected
+                      </div>
                     </div>
                   </div>
+                  <RiskGauge score={confidence} riskLevel={riskLevel} />
                 </div>
-                <div className="confidence-indicator">
-                  Confidence: {confidence}%
-                </div>
-              </div>
 
-              {/* Explanation Tabs (Simple | Detailed | Technical) */}
-              <div className="explanation-tabs">
-                <button 
-                  className={`exp-tab ${activeTab === 'simple' ? 'active simple' : ''}`}
-                  onClick={() => setActiveTab('simple')}
-                >
-                  Simple
-                </button>
-                <button 
-                  className={`exp-tab ${activeTab === 'detailed' ? 'active detailed' : ''}`}
-                  onClick={() => setActiveTab('detailed')}
-                >
-                  Detailed
-                </button>
-                <button 
-                  className={`exp-tab ${activeTab === 'technical' ? 'active technical' : ''}`}
-                  onClick={() => setActiveTab('technical')}
-                >
-                  Technical
-                </button>
-              </div>
-
-              {/* Explanation Body */}
-              <div className="explanation-body">
-                {analysisResult?.explanation?.[activeTab] || analysisResult?.explanation?.simple}
-              </div>
-
-              {/* Why is it suspicious? */}
-              <div className="suspicious-box">
-                <div className="section-label">Why is it suspicious?</div>
-                <ul className="suspicious-list">
-                  {analysisResult?.why_suspicious?.map((item, idx) => (
-                    <li key={idx} className="suspicious-item">
-                      <span className="bullet-red">•</span>
-                      <span>{item}</span>
-                    </li>
+                {/* Explanation tabs */}
+                <div className="exp-tabs">
+                  {['simple', 'detailed', 'technical'].map(t => (
+                    <button
+                      key={t}
+                      className={`exp-tab ${activeTab === t ? `active ${t}` : ''}`}
+                      onClick={() => setActiveTab(t)}
+                    >
+                      {t.charAt(0).toUpperCase() + t.slice(1)}
+                    </button>
                   ))}
-                </ul>
-              </div>
+                </div>
 
-              {/* What could happen? */}
-              <div className="impact-card">
-                <strong>What could happen?</strong>
-                <p style={{ marginTop: '0.25rem' }}>{analysisResult?.what_could_happen}</p>
-              </div>
+                <div className="exp-body">
+                  {result?.explanation?.[activeTab] || result?.explanation?.simple}
+                </div>
 
-              {/* What should you do? Checklist */}
-              <div className="action-plan-box">
-                <div className="action-plan-title">What should you do?</div>
-                <div className="action-list">
-                  {analysisResult?.action_plan?.what_to_do?.map((step, idx) => {
-                    const isChecked = !!completedSteps[idx];
-                    return (
-                      <div 
-                        key={idx} 
-                        className={`action-item ${isChecked ? 'checked' : ''}`}
-                        onClick={() => toggleStep(idx)}
+                {/* Why suspicious */}
+                <div className="signals-wrap">
+                  <div className="signals-label">Why is it suspicious?</div>
+                  <ul className="signals-list">
+                    {result?.why_suspicious?.map((item, i) => (
+                      <li key={i} className="signal-item">
+                        <span className="signal-dot" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* What could happen */}
+                <div className="impact-banner">
+                  <strong>What could happen?</strong>
+                  {result?.what_could_happen}
+                </div>
+
+                {/* Action plan */}
+                <div className="action-plan">
+                  <div className="action-plan-header">What should you do?</div>
+                  <div className="action-steps">
+                    {result?.action_plan?.what_to_do?.map((step, i) => (
+                      <button
+                        key={i}
+                        className={`action-step ${doneSteps[i] ? 'done' : ''}`}
+                        onClick={() => toggleStep(i)}
                       >
-                        <div className="action-number">
-                          {isChecked ? <Check size={14} /> : (idx + 1)}
+                        <div className="step-num">
+                          {doneSteps[i] ? <Check size={12} /> : i + 1}
                         </div>
                         <span>{step}</span>
-                      </div>
-                    );
-                  })}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
 
-        {/* Threat Coverage Explorer (Panel 4) */}
-        <section className="card-panel threat-grid-section">
-          <div className="panel-header">
-            <div className="panel-number">4</div>
-            <div className="panel-title">Key Threat Coverage (Core Modules)</div>
+        {/* ── SECTION 4: Threat Coverage ── */}
+        <div className="threat-section">
+          <div className="threat-section-header">
+            <div className="threat-section-step">4</div>
+            <span className="threat-section-title">Key Threat Coverage</span>
+            <span className="threat-section-sub">Sessions 1–10 · 8 modules</span>
           </div>
-          <div className="threat-cards-grid">
-            {THREAT_CATEGORIES.map((cat) => {
-              const IconComp = cat.icon;
+          <div className="threat-grid">
+            {THREATS.map(t => {
+              const Icon = t.icon;
               return (
-                <div key={cat.id} className="threat-card">
-                  <div className="threat-icon-title">
-                    <IconComp size={18} style={{ color: cat.color }} />
-                    <span>{cat.name}</span>
+                <div key={t.id} className="threat-card">
+                  <div className="threat-icon-bg" style={{ background: t.bg }}>
+                    <Icon style={{ color: t.color }} />
                   </div>
-                  <div className="threat-desc">{cat.sub}</div>
+                  <div>
+                    <div className="threat-name">{t.name}</div>
+                    <div className="threat-sub">{t.sub}</div>
+                  </div>
                 </div>
               );
             })}
           </div>
-        </section>
+        </div>
       </main>
 
-      {/* Footer */}
+      {/* ── FOOTER ── */}
       <footer className="app-footer">
-        <div className="footer-container">
-          <div>
-            <h3 className="footer-col-title">Our Mission</h3>
-            <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.6 }}>
-              To empower individuals with easy-to-use cybersecurity tools that detect threats, explain risks in simple language, and guide them with clear actions.
-            </p>
+        <div className="footer-inner">
+          <div className="footer-grid">
+            <div>
+              <div className="footer-brand">
+                <Shield />
+                <span className="footer-brand-name">CyberSafe</span>
+              </div>
+              <p className="footer-mission">
+                Empowering individuals with easy-to-use cybersecurity tools
+                that detect threats, explain risks in plain language, and
+                guide them with clear actions.
+              </p>
+            </div>
+
+            <div>
+              <div className="footer-col-title">Target Users</div>
+              <ul className="footer-list">
+                <li>General internet users</li>
+                <li>Students</li>
+                <li>Professionals</li>
+                <li>Small businesses</li>
+                <li>Anyone seeking digital safety</li>
+              </ul>
+            </div>
+
+            <div>
+              <div className="footer-col-title">Key Benefits</div>
+              <ul className="footer-list">
+                <li>No technical knowledge needed</li>
+                <li>Covers multiple cyber threat types</li>
+                <li>Clear, actionable guidance</li>
+                <li>Builds cybersecurity awareness</li>
+              </ul>
+            </div>
+
+            <div>
+              <div className="footer-col-title">Future Scope</div>
+              <ul className="footer-list">
+                <li>Real-time browser extension</li>
+                <li>Mobile apps (iOS & Android)</li>
+                <li>Threat history & notifications</li>
+                <li>Community threat reporting</li>
+                <li>Enterprise tool integration</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h3 className="footer-col-title">Target Users</h3>
-            <ul className="footer-list">
-              <li>• General internet users</li>
-              <li>• Students</li>
-              <li>• Professionals</li>
-              <li>• Small businesses</li>
-              <li>• Anyone seeking digital safety</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="footer-col-title">Future Scope</h3>
-            <ul className="footer-list">
-              <li>• Real-time browser extension</li>
-              <li>• Mobile native apps (iOS / Android)</li>
-              <li>• Threat notifications & history</li>
-              <li>• Advanced host & network scans</li>
-              <li>• Community threat reporting</li>
-            </ul>
+
+          <div className="footer-bottom">
+            <span className="footer-copy">
+              © 2026 CyberSafe · Vijaybhoomi University Cybersecurity Course
+            </span>
+            <span className="footer-note">
+              All analysis is performed in transient memory. No data is stored.
+            </span>
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
