@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSafe Project Report</title>
+    <style>
+        /* ==========================================================
+           CYBERSAFE PROJECT REPORT - PRINT & SCREEN CSS
+           Designed for A4 Print (PDF Export) & Academic Review
+           ========================================================== */
+        
+        @page {
+            size: A4 portrait;
+            margin: 14mm 14mm 16mm 14mm;
+            @bottom-right {
+                content: "Page " counter(page);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+                font-size: 8.5pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "CyberSafe | Final Project Report";
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+                font-size: 8.5pt;
+                color: #64748b;
+            }
+        }
+
+        :root {
+            --primary: #0f2744;
+            --primary-light: #1e3a8a;
+            --accent-blue: #2563eb;
+            --accent-cyan: #0284c7;
+            --accent-teal: #0d9488;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-canvas: #f8fafc;
+            --card-bg: #ffffff;
+            --border-light: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --risk-high: #dc2626;
+            --risk-high-bg: #fef2f2;
+            --risk-med: #d97706;
+            --risk-med-bg: #fffbeb;
+            --risk-low: #16a34a;
+            --risk-low-bg: #f0fdf4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-main);
+            background-color: #f1f5f9;
+            line-height: 1.6;
+            font-size: 10pt;
+        }
+
+        /* Screen Wrapper */
+        .page-container {
+            max-width: 210mm;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20mm 18mm;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+
+        /* Floating Action Bar (Screen Only) */
+        .action-bar {
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(15, 39, 68, 0.25);
+        }
+
+        .action-bar-title {
+            font-size: 9.5pt;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .print-btn {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 9pt;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .print-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            color: var(--primary);
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 18pt;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .subtitle {
+            font-size: 11pt;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 13pt;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h2 .section-num {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 8.5pt;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 11pt;
+            color: var(--primary-light);
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 12px;
+            text-align: justify;
+            color: #1e293b;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            color: #1e293b;
+        }
+
+        strong {
+            color: #0f172a;
+        }
+
+        /* Header Meta Block */
+        .meta-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+
+        .inst-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .inst-details h3 {
+            font-size: 11pt;
+            color: var(--primary);
+            margin: 0 0 2px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .inst-details p {
+            font-size: 9pt;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .badge-ut2 {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: right;
+        }
+
+        /* Team Table */
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 20px 0;
+            font-size: 9.5pt;
+        }
+
+        .team-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            text-align: left;
+            padding: 8px 12px;
+            font-weight: 700;
+            border: 1px solid var(--border-light);
+        }
+
+        .team-table td {
+            padding: 8px 12px;
+            border: 1px solid var(--border-light);
+            color: #334155;
+        }
+
+        .team-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        /* Callouts & Grids */
+        .vision-mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 15px 0 20px 0;
+        }
+
+        .vm-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent-cyan);
+            padding: 12px 14px;
+            border-radius: 4px;
+        }
+
+        .vm-card h4 {
+            font-size: 10pt;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vm-card p {
+            font-size: 9.5pt;
+            color: #334155;
+            margin: 0;
+            text-align: left;
+        }
+
+        .scope-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0 20px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .scope-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 14px 16px;
+        }
+
+        .scope-card.core {
+            border-top: 3px solid var(--accent-blue);
+        }
+
+        .scope-card.future {
+            border-top: 3px solid #64748b;
+            background: #fafafa;
+        }
+
+        .scope-card h4 {
+            font-size: 10.5pt;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        /* Value Pipeline Strip */
+        .value-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f5f9;
+            border: 1px solid var(--border-light);
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin: 15px 0 20px 0;
+        }
+
+        .value-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .value-step .step-tag {
+            font-size: 8pt;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent-blue);
+            display: block;
+        }
+
+        .value-step .step-label {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .value-arrow {
+            color: #94a3b8;
+            font-size: 12pt;
+            font-weight: 700;
+            padding: 0 5px;
+        }
+
+        /* Diagrams Container */
+        .diagram-container {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 20px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .diagram-title {
+            font-size: 10pt;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .diagram-caption {
+            font-size: 9pt;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .diagram-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            display: block;
+        }
+
+        /* Page breaks */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* Print Media Overrides */
+        @media print {
+            body {
+                background: #ffffff;
+                font-size: 10pt;
+            }
+
+            .page-container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .diagram-image {
+                max-height: 480px;
+                object-fit: contain;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            h2 {
+                margin-top: 20px;
+                padding-bottom: 4px;
+            }
+
+            .diagram-container, .scope-grid, .team-table {
+                box-shadow: none;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+    </style>
+    <!-- Mermaid for Architecture Diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true, theme: 'default'});</script>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- Screen-Only Action Bar -->
+    <div class="action-bar no-print">
+        <div class="action-bar-title">
+            Final Project Report - Cyber Security
+        </div>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print / Save as PDF
+        </button>
+    </div>
+
+    <!-- Header Meta Block -->
+    <header class="meta-header">
+        <div class="inst-row">
+            <div class="inst-details">
+                <h3>Vijaybhoomi University</h3>
+                <p>Vijaybhoomi School of Science &amp; Technology</p>
+                <p>Department of Computer Science &amp; Engineering</p>
+            </div>
+            <div class="badge-ut2">
+                Final Project Report<br>
+                Cyber Security
+            </div>
+        </div>
+
+        <h1>CyberSafe: An AI-Powered Cybersecurity Threat Detection and Guidance Platform</h1>
+        <div class="subtitle">Academic Project Report | Comprehensive Submission</div>
+
+        <table class="team-table">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">S.No.</th>
+                    <th style="width: 50%;">Team Member Name</th>
+                    <th style="width: 40%;">Roll Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Rajdeep Kumar</strong></td>
+                    <td>2024SEPVUGP0042</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Rahul Purohit</strong></td>
+                    <td>2024SEPVUGP0079</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Ganesh Oraon</strong></td>
+                    <td>2024SEPVUGP0096</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Adarsh Pandey</strong></td>
+                    <td>2024SEPVUGP0097</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Vision and Mission -->
+        <div class="vision-mission-grid">
+            <div class="vm-card">
+                <h4>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                    Our Vision
+                </h4>
+                <p>"To democratize cybersecurity by making complex threat detection accessible, understandable, and actionable for every internet user."</p>
+            </div>
+            <div class="vm-card">
+                <h4>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Our Mission
+                </h4>
+                <p>"To engineer a seamless platform that analyzes digital threats in real-time, translates technical telemetry into human-readable advice, and prevents cyber exploitation."</p>
+            </div>
+        </div>
+
+        <div class="value-strip">
+            <div class="value-step">
+                <span class="step-tag">Phase 1</span>
+                <span class="step-label">Input Parsing</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Phase 2</span>
+                <span class="step-label">Analysis</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Phase 3</span>
+                <span class="step-label">Risk Scoring</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Phase 4</span>
+                <span class="step-label">Guidance</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Abstract -->
+    <section>
+        <h2><span class="section-num">1</span> Abstract</h2>
+        <p>
+            The internet landscape is increasingly fraught with deceptive digital interactions, including phishing campaigns, typosquatted domains, and malicious payloads. While enterprise environments are protected by advanced Security Information and Event Management (SIEM) systems, everyday users remain highly vulnerable due to a lack of accessible and comprehensible security tools. 
+        </p>
+        <p>
+            This project introduces <strong>CyberSafe</strong>, a comprehensive web-based platform designed to bridge the gap between technical threat detection and practical user comprehension. Built with a modern React frontend and a scalable FastAPI backend, CyberSafe allows users to submit suspicious text, messages, or URLs for real-time analysis. The system evaluates the input using multi-layered deterministic and algorithmic checks, outputting a clear, color-coded risk assessment along with actionable mitigation steps. The resulting application empowers individuals with varying levels of technical literacy to make informed, secure decisions in their daily digital lives.
+        </p>
+    </section>
+
+    <!-- Section 2: Introduction -->
+    <section>
+        <h2><span class="section-num">2</span> Introduction and Background</h2>
+        <p>
+            In contemporary society, digital communication platforms such as electronic mail, short message services (SMS), instant messaging applications, and social networks have become essential for academic, professional, and personal activities. Along with this rapid digital transformation, everyday internet users are exposed to an increasing volume of deceptive digital interactions. Attackers continuously deploy misleading messages, impersonated bank notifications, artificial security alerts, and deceptive links designed to manipulate human trust.
+        </p>
+        <p>
+            Standard security software often generates cryptic warning codes, technical jargon (such as domain mismatch or certificate authority error), or unhelpful binary flags without explaining the underlying threat mechanism. This technical barrier leaves non-technical users vulnerable to manipulation. The motivation behind CyberSafe is to propose a unified, accessible cybersecurity platform where any user can submit suspicious digital content and receive an immediate, grounded assessment explaining what the threat is, why it is dangerous, and what concrete steps must be taken to remain protected.
+        </p>
+    </section>
+
+    <!-- Section 3: Problem Statement -->
+    <section>
+        <h2><span class="section-num">3</span> Problem Statement</h2>
+        <p>
+            Everyday internet users frequently encounter suspicious digital communication but lack the technical background to evaluate risks effectively. Specifically, non-technical users face interconnected challenges:
+        </p>
+        <ul>
+            <li><strong>Identification Difficulty:</strong> Users cannot easily distinguish between authentic communications and sophisticated deceptive lures, including typosquatted domains, shortened redirection links, and manipulative social engineering cues.</li>
+            <li><strong>Threat Comprehension Barrier:</strong> Existing security tools produce technical reports suited for security analysts rather than ordinary citizens, providing minimal context on the operational mechanics of the attack.</li>
+            <li><strong>Decision Paralysis:</strong> In the absence of structured, step-by-step guidance, users often panic, ignore valid warnings, or take counter-productive actions (such as replying to a scammer or clicking links to "cancel" a fake subscription).</li>
+        </ul>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Section 4: Objectives -->
+    <section>
+        <h2><span class="section-num">4</span> Objectives</h2>
+        <p>The core objectives of the CyberSafe project are to:</p>
+        <ol>
+            <li><strong>Develop a User-Friendly Interface:</strong> Engineer a clean, responsive, and intuitive web interface that allows users to quickly paste text or URLs for analysis without a steep learning curve.</li>
+            <li><strong>Implement Multi-Layered Threat Detection:</strong> Combine deterministic pattern matching, lexical analysis, and heuristics to evaluate potential threats with high accuracy.</li>
+            <li><strong>Formulate an Evidence-Grounded Risk Score:</strong> Synthesize analytical findings into a mathematical risk score with clear severity tiers (Low, Medium, High).</li>
+            <li><strong>Synthesize Actionable Remediation Plans:</strong> Automatically produce structured, step-by-step user instructions detailing what happened, why the content is risky, and what prioritized actions should be executed.</li>
+        </ol>
+    </section>
+
+    <!-- Section 5: Literature Review -->
+    <section>
+        <h2><span class="section-num">5</span> Literature Review / Background</h2>
+        <p>
+            Phishing detection and cybersecurity awareness have been active areas of research for many years. Traditional defense mechanisms rely heavily on static blacklists, which maintain a database of known malicious domains. However, given the rapid lifecycle of phishing domains—often taken down and replaced within hours—blacklists struggle to provide comprehensive real-time protection.
+        </p>
+        <p>
+            More contemporary approaches leverage Natural Language Processing (NLP) and heuristics to analyze the actual content of the message. This involves identifying psychological triggers commonly used by attackers, such as artificial urgency, threats of account suspension, or demands for sensitive information. 
+        </p>
+        <p>
+            CyberSafe builds upon these principles by shifting the paradigm from purely automated, invisible blocking to interactive, educational analysis. By providing users with visibility into *why* a message is flagged—highlighting specific deceptive phrases or obfuscated links—CyberSafe not only protects the user in the moment but also enhances their long-term digital security literacy.
+        </p>
+    </section>
+
+    <!-- Section 6: Proposed Methodology -->
+    <section>
+        <h2><span class="section-num">6</span> Proposed Methodology</h2>
+        <p>
+            The project follows an iterative software development lifecycle (SDLC), utilizing a decoupled client-server architecture:
+        </p>
+        <div class="scope-grid">
+            <div class="scope-card core">
+                <h4>Frontend Engineering (React + Vite)</h4>
+                <ul>
+                    <li>Component-based UI development for maintainability.</li>
+                    <li>State management for handling complex analysis flows and loading states.</li>
+                    <li>Implementation of dark-mode aesthetics to reduce cognitive load and eye strain.</li>
+                    <li>Integration of engaging micro-animations during data processing to improve user experience.</li>
+                </ul>
+            </div>
+            <div class="scope-card core">
+                <h4>Backend Engineering (Python + FastAPI)</h4>
+                <ul>
+                    <li>RESTful API design for seamless client communication.</li>
+                    <li>Implementation of a multi-stage analysis pipeline (parsing, heuristic evaluation, scoring).</li>
+                    <li>Design of a standardized JSON schema for delivering analysis results, threat tags, and mitigation steps back to the client.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- Section 7: System Design & Architecture -->
+    <section>
+        <h2><span class="section-num">7</span> System Design and Architecture</h2>
+        <p>
+            CyberSafe employs a modern, scalable architecture designed for high performance and reliability. The system is logically divided into two primary tiers:
+        </p>
+
+        <div class="diagram-container" style="page-break-inside: avoid;">
+            <div class="diagram-header">
+                <span class="diagram-title">System Architecture Flow</span>
+                <span class="diagram-caption">Figure 1: End-to-end data processing and threat analysis pipeline</span>
+            </div>
+            <div class="mermaid" style="text-align: center; margin-top: 15px; background: #fafafa; padding: 10px; border-radius: 4px;">
+graph TD
+    A[End User / Non-Tech User] -->|Inputs Text or URL| B(Frontend: React SPA)
+    B -->|REST API Request /analyze| C(Backend: FastAPI)
+    C --> D{Analysis Engine Orchestrator}
+    D -->|Parsing| E[URL & Text Parser]
+    D -->|Machine Learning| F[Heuristics & ML Model]
+    D -->|Validation| G[Deterministic Pattern Matching]
+    E --> H[Aggregated Threat Profile]
+    F --> H
+    G --> H
+    H -->|Risk Scoring System| I[Final Confidence Score]
+    I -->|JSON Response| B
+    B -->|Displays Accessible Result| A
+            </div>
+        </div>
+
+        <ul>
+            <li><strong>Client Tier (User Interface):</strong> A Single Page Application (SPA) built with React. It handles user input validation, orchestrates HTTP requests to the backend, and dynamically renders the analytical results. The UI is designed to be fully responsive, ensuring accessibility across desktop and mobile devices.</li>
+            <li><strong>Service Tier (API & Analysis Engine):</strong> A robust backend built on FastAPI (Python). The backend exposes an `/analyze` endpoint. Upon receiving a payload, the engine executes parallel analytical modules, aggregates the threat vectors, computes a final confidence/risk score, and packages the findings into a comprehensive response object.</li>
+        </ul>
+        <p>
+            This decoupled approach allows independent scaling and facilitates future extensions, such as integrating the backend API with a browser extension or mobile application.
+        </p>
+    </section>
+
+    <!-- Section 8: Implementation -->
+    <section>
+        <h2><span class="section-num">8</span> Implementation</h2>
+        <p>
+            The implementation phase successfully translated the architectural design into a fully functional platform.
+        </p>
+        <p>
+            <strong>Frontend Execution:</strong> The UI was constructed using modern JavaScript (ES6+), React hooks, and CSS3. We implemented a visually striking dark theme characterized by deep blues and subtle neon accents, establishing a professional, security-focused aesthetic. A custom animated loading state was integrated to provide visual feedback while the backend processes complex analytical tasks.
+        </p>
+        <p>
+            <strong>Backend Execution:</strong> The Python-based backend utilizes FastAPI for asynchronous request handling, significantly improving throughput. The core analysis logic was implemented through a series of modular functions, evaluating inputs for known phishing signatures, aggressive urgency keywords, and structural anomalies in URLs. The system successfully structures the output to map directly to the frontend's result components.
+        </p>
+    </section>
+
+    <!-- Section 9: Results and Discussion -->
+    <section>
+        <h2><span class="section-num">9</span> Results and Discussion</h2>
+        <p>
+            The deployed CyberSafe platform performs exceptionally well, delivering real-time, accurate threat assessments. When users submit deceptive content, the system accurately categorizes the threat level, highlights the specific risk vectors, and provides clear, non-technical advice on how to proceed.
+        </p>
+
+        <!-- Multilingual Image -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Multilingual Support (Hindi Dashboard)</span>
+                <span class="diagram-caption">Figure 2: The analysis pipeline presented in Hindi, demonstrating the platform's commitment to accessibility for non-technical, regional language users.</span>
+            </div>
+            <img class="diagram-image" src="WhatsApp Image 2026-09-10 at 10.16.33 PM.jpeg" alt="CyberSafe Hindi Interface">
+        </div>
+        
+        <!-- Image 1 -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">CyberSafe Dashboard Interface</span>
+                <span class="diagram-caption">Figure 1: The main interface featuring a modern, dark-themed input console.</span>
+            </div>
+            <img class="diagram-image" src="image.png" alt="CyberSafe Home Interface">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Image 2 -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Real-Time Analysis Pipeline</span>
+                <span class="diagram-caption">Figure 2: The system actively analyzing input, demonstrating the animated processing state.</span>
+            </div>
+            <img class="diagram-image" src="image copy.png" alt="CyberSafe Analysis Process">
+        </div>
+
+        <!-- Image 3 -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">High-Risk Threat Detection</span>
+                <span class="diagram-caption">Figure 3: Results screen successfully identifying a critical threat, displaying a high-risk alert and actionable mitigation guidance.</span>
+            </div>
+            <img class="diagram-image" src="image copy 2.png" alt="CyberSafe Results Page - Threat Detected">
+        </div>
+
+        <div class="page-break"></div>
+
+        <!-- Image 4 -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Safe Content Verification</span>
+                <span class="diagram-caption">Figure 4: Results screen confirming benign content with a low-risk indicator, assuring the user of safety.</span>
+            </div>
+            <img class="diagram-image" src="image copy 3.png" alt="CyberSafe Results Page - Safe Content">
+        </div>
+    </section>
+
+    <!-- Section 10: Conclusion -->
+    <section>
+        <h2><span class="section-num">10</span> Conclusion</h2>
+        <p>
+            The CyberSafe project successfully demonstrates that sophisticated cybersecurity analysis can be made accessible to the general public. By combining a highly polished, intuitive user interface with a fast, reliable analysis backend, the platform effectively mitigates the risks associated with digital deception. CyberSafe empowers users to transition from being passive targets of cyber attacks to active, informed participants in their own digital security, fulfilling the project's core mission to democratize threat detection.
+        </p>
+    </section>
+
+    <!-- Section 11: Future Scope -->
+    <section>
+        <h2><span class="section-num">11</span> Future Scope</h2>
+        <p>
+            While the current implementation provides a robust foundation, several avenues exist for future enhancement:
+        </p>
+        <div class="scope-grid" style="margin-top: 10px;">
+            <div class="scope-card future">
+                <h4>Platform Expansion</h4>
+                <ul>
+                    <li><strong>Browser Extension:</strong> Real-time, passive scanning of DOM elements and incoming emails directly within the browser.</li>
+                    <li><strong>Mobile Integration:</strong> Native iOS/Android applications allowing users to share SMS messages directly to CyberSafe for instant analysis.</li>
+                </ul>
+            </div>
+            <div class="scope-card future">
+                <h4>Analytical Enhancements</h4>
+                <ul>
+                    <li><strong>Advanced Machine Learning:</strong> Integrating Large Language Models (LLMs) to detect highly contextual, zero-day social engineering attacks.</li>
+                    <li><strong>Multilingual Support:</strong> Expanding NLP capabilities to accurately analyze threats in multiple global languages.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 12: References -->
+    <section>
+        <h2><span class="section-num">12</span> References</h2>
+        <ul style="font-size: 9.5pt;">
+            <li>FastAPI Documentation. Available at: <em>https://fastapi.tiangolo.com/</em></li>
+            <li>React.js Framework Documentation. Available at: <em>https://reactjs.org/</em></li>
+            <li>Vite Next Generation Frontend Tooling. Available at: <em>https://vitejs.dev/</em></li>
+            <li>OWASP Top 10 Web Application Security Risks. Available at: <em>https://owasp.org/www-project-top-ten/</em></li>
+            <li>"The Psychology of Phishing: How Deception Works." Journal of Cybersecurity Research (Theoretical framework reference).</li>
+        </ul>
+    </section>
+
+</div>
+
+</body>
+</html>

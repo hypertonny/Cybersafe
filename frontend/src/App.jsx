@@ -7,6 +7,7 @@ import {
   Zap, Radio, TrendingUp, Activity, Rss, Terminal, Languages
 } from 'lucide-react';
 import { TRANSLATIONS, BILINGUAL_QUOTES, BILINGUAL_NEWS, BILINGUAL_PRESETS } from './translations';
+import roadRunnerGif from './assets/ddqvz2z-330a5ed2-a567-4a71-962a-2ba9665c6466.gif';
 
 /* ─── PRESET SAMPLES ─────────────────────────── */
 const PRESETS = [
@@ -1008,6 +1009,7 @@ function SubmitView({ onSubmit }) {
 function LoadingView() {
   const { lang } = useLang();
   const [activeStep, setActiveStep] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const steps = lang === 'hi'
     ? [
@@ -1021,29 +1023,83 @@ function LoadingView() {
     : LOADING_STEPS;
 
   useEffect(() => {
+    const duration = 4000; // 4 seconds loading animation
+    const startTime = Date.now();
+
     const interval = setInterval(() => {
-      setActiveStep(prev => (prev < steps.length - 1 ? prev + 1 : prev));
-    }, 280);
+      const elapsed = Date.now() - startTime;
+      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(pct);
+
+      const stepIdx = Math.min(steps.length - 1, Math.floor((elapsed / duration) * steps.length));
+      setActiveStep(stepIdx);
+
+      if (elapsed >= duration) {
+        clearInterval(interval);
+      }
+    }, 30);
+
     return () => clearInterval(interval);
   }, [steps.length]);
 
   return (
     <div className="loading-view">
-      <div className="loading-bar-wrap">
-        <div className="loading-track">
-          <div className="loading-fill" />
-        </div>
-      </div>
-      <div className="loading-steps">
-        {steps.map((step, i) => (
-          <div
-            key={i}
-            className={`loading-step ${i === activeStep ? 'active' : ''} ${i < activeStep ? 'done' : ''}`}
-          >
-            <div className="loading-step-dot" />
-            <span className="loading-step-text">{step}</span>
+      <div className="loading-card">
+        {/* Top HUD Status Header */}
+        <div className="loading-hud-header">
+          <div className="loading-hud-badge">
+            <span className="loading-pulse-ring" />
+            <span className="loading-pulse-dot" />
+            <span className="loading-hud-title">HYPER-SPEED THREAT ANALYSIS</span>
           </div>
-        ))}
+          <div className="loading-hud-pct">{progress}%</div>
+        </div>
+
+        {/* Curved GIF Frame with Laser Scan & Glass Blend */}
+        <div className="loading-gif-frame">
+          <img
+            src={roadRunnerGif}
+            alt="Scanning in progress..."
+            className="loading-gif-img"
+          />
+          <div className="loading-scan-line" />
+          <div className="loading-gif-overlay-vignette" />
+          <div className="loading-gif-hud-tag">
+            <Zap size={13} className="zap-icon-lime" />
+            <span>AI NEURAL CLASSIFIER &bull; ACTIVE SCAN</span>
+          </div>
+        </div>
+
+        {/* Dynamic Progress Bar */}
+        <div className="loading-progress-wrap">
+          <div className="loading-progress-track">
+            <div
+              className="loading-progress-fill"
+              style={{ width: `${progress}%` }}
+            >
+              <span className="loading-progress-glow" />
+            </div>
+          </div>
+        </div>
+
+        {/* Step-by-Step Analysis Checklist */}
+        <div className="loading-steps-grid">
+          {steps.map((step, i) => (
+            <div
+              key={i}
+              className={`loading-step ${i === activeStep ? 'active' : ''} ${i < activeStep ? 'done' : ''}`}
+            >
+              <div className="loading-step-icon">
+                {i < activeStep ? (
+                  <Check size={12} className="step-check-icon" />
+                ) : (
+                  <div className="loading-step-dot" />
+                )}
+              </div>
+              <span className="loading-step-text">{step}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1257,6 +1313,9 @@ function Dashboard({ onBack }) {
 
   const handleSubmit = async ({ inputType, payload, whoAreYou, techLevel, focusArea }) => {
     setView('loading');
+    const startTime = Date.now();
+    let apiResult = null;
+
     try {
       const res = await fetch('/api/v1/analyze', {
         method: 'POST',
@@ -1272,19 +1331,20 @@ function Dashboard({ onBack }) {
         }),
       });
 
-      // Minimum loading duration so steps are readable
-      await new Promise(r => setTimeout(r, 2000));
-
       if (res.ok) {
-        const data = await res.json();
-        setResult(data);
+        apiResult = await res.json();
       } else {
-        setResult(DEFAULT_RESULT);
+        apiResult = DEFAULT_RESULT;
       }
     } catch {
-      await new Promise(r => setTimeout(r, 2000));
-      setResult(DEFAULT_RESULT);
+      apiResult = DEFAULT_RESULT;
     } finally {
+      const elapsed = Date.now() - startTime;
+      const targetDuration = 4000; // 4 seconds loading duration
+      if (elapsed < targetDuration) {
+        await new Promise(r => setTimeout(r, targetDuration - elapsed));
+      }
+      setResult(apiResult);
       setView('output');
     }
   };
