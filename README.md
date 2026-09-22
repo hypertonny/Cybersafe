@@ -45,14 +45,69 @@ Traditional security tools generate complex technical reports filled with crypti
 
 ---
 
-## 🏛️ Platform Architecture (The 5-Stage Pipeline)
+## 🏛️ Platform & System Architecture
 
+### 1. High-Level 5-Stage Pipeline Graph
 ```mermaid
 flowchart LR
     A["[1] Input Processor\n(Text, URL, Vision, File)"] --> B["[2] Parallel Security Engines\n(Rules, ML, Security Checks)"]
     B --> C["[3] Risk Engine\n(w1*Rules + w2*ML + w3*Checks)"]
     C --> D["[4] LLM Explanation Layer\n(Simple | Detailed | Technical)"]
     D --> E["[5] Action Plan Generator\n(What happened, Why risky, Next steps)"]
+```
+
+### 2. End-to-End Component Architecture Blueprint
+```mermaid
+graph TD
+    subgraph Client_Layer["Client Layer (React 18 + Vite SPA)"]
+        User["End User / Non-Tech User"] -->|Interacts| UI["React HUD Dashboard"]
+        UI -->|Input Types| Ingest["Text | URL | File | Screenshot"]
+        UI -->|Preferences| Config["Persona & Technical Depth"]
+    end
+
+    subgraph API_Gateway["API Gateway & Serverless Layer"]
+        Ingest -->|HTTPS REST API /api/v1/analyze| Router["FastAPI Orchestrator"]
+    end
+
+    subgraph Backend_Pipeline["5-Stage Threat Analysis Pipeline"]
+        Router -->|Stage 1| Stage1["Input Processor\n(SSRF Shield, PII Redactor, Parsers)"]
+        Stage1 -->|Stage 2| Stage2["Parallel Security Engines"]
+        
+        subgraph Stage2["Stage 2: Parallel Engines"]
+            Rules["Rules Engine\n(Regex, Signatures, Urgency)"]
+            ML["ML Classifier\n(Entropy, Lexical Vectors)"]
+            Checks["Security Checks\n(Domain Age, SSL, Hashes)"]
+        end
+
+        Stage2 -->|Stage 3| Stage3["Risk Engine\n(Weighted Scorer & Fail-Safe)"]
+        Stage3 -->|Stage 4| Stage4["LLM Explanation Layer\n(Evidence Grounding & Fallback)"]
+        Stage4 -->|Stage 5| Stage5["Action Plan Generator\n(Mitigation Checklist)"]
+    end
+
+    Stage5 -->|Structured JSON Verdict| UI
+    UI -->|Renders Accessible Result| User
+```
+
+### 3. Request Execution Sequence Diagram
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User / Student
+    participant UI as React SPA (Vite)
+    participant API as FastAPI Backend
+    participant Engine as Analysis Engine
+    participant LLM as LLM Explanation Layer
+
+    User->>UI: Submit payload (Text / URL / File / Screenshot)
+    UI->>API: POST /api/v1/analyze (Payload + User Preferences)
+    API->>Engine: Sanitize input, check SSRF & redact PII
+    Engine->>Engine: Run Rules + ML + Security Checks in parallel
+    Engine->>Engine: Calculate Risk Score (w1*Rules + w2*ML + w3*Checks)
+    Engine->>LLM: Ground evidence & generate explanations (Simple/Detailed/Technical)
+    LLM-->>Engine: Structured explanation payload
+    Engine-->>API: Synthesize final JSON verdict response
+    API-->>UI: 200 OK (Analysis Verdict & Action Plan)
+    UI-->>User: Display color-coded verdict, telemetry & guidance
 ```
 
 1. **Stage 1: Input Processor:** Normalizes raw inputs, scrubs PII, validates URLs against SSRF, and computes cryptographic hashes.
