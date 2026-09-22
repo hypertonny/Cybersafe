@@ -1,0 +1,49 @@
+Architecture Review — Meeting Agenda
+Date: Tuesday, 23 September 2026
+Time: 10:00 AM IST
+Location: Lab 302, Block C / Microsoft Teams (hybrid)
+
+Organiser: Prof. Rajan Mehta
+Attendees: Cybersecurity Cohort 2026, Guest — Mr. Arjun Verma (Industry Mentor)
+
+─────────────────────────────────────────────
+AGENDA ITEMS
+─────────────────────────────────────────────
+
+1. Welcome and introduction (5 min)
+   - Attendance and logistics
+   - Recording notice
+
+2. Project status update — CyberSafe (20 min)
+   - Demo of the 5-stage analysis pipeline
+   - Test coverage report (25 passing tests)
+   - Known limitations and open issues
+
+3. Architecture discussion (30 min)
+   - Input processor design decisions
+   - Weighted risk scoring formula review
+   - SSRF mitigation strategy
+
+4. Industry feedback session (20 min)
+   - Q&A with Mr. Arjun Verma
+   - Real-world threat landscape context
+
+5. Next sprint planning (15 min)
+   - LLM integration roadmap
+   - Mobile app feasibility
+
+6. AOB and close
+
+─────────────────────────────────────────────
+RESOURCES
+─────────────────────────────────────────────
+
+Project repository: https://github.com/hypertonny/Cybersafe
+Documentation: /docs/ARCHITECTURE.md
+Test suite: /tests/
+Previous meeting notes: SharePoint > Cybersecurity 2026 > Meetings
+
+─────────────────────────────────────────────
+Please review the architecture document before the session.
+Contact: rajan.mehta@vijaybhoomi.edu.in
+─────────────────────────────────────────────

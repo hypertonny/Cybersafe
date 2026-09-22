@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSafe: Unit Test 2 Project Description Report</title>
+    <style>
+        /* ==========================================================
+           CYBERSAFE UT2 PROJECT DESCRIPTION - PRINT & SCREEN CSS
+           Designed for A4 Print (PDF Export) & Academic Review
+           ========================================================== */
+        
+        @page {
+            size: A4 portrait;
+            margin: 14mm 14mm 16mm 14mm;
+            @bottom-right {
+                content: "Page " counter(page);
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+                font-size: 8.5pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "CyberSafe | STCS225 Unit Test 2 Proposal";
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+                font-size: 8.5pt;
+                color: #64748b;
+            }
+        }
+
+        :root {
+            --primary: #0f2744;
+            --primary-light: #1e3a8a;
+            --accent-blue: #2563eb;
+            --accent-cyan: #0284c7;
+            --accent-teal: #0d9488;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --bg-canvas: #f8fafc;
+            --card-bg: #ffffff;
+            --border-light: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --risk-high: #dc2626;
+            --risk-high-bg: #fef2f2;
+            --risk-med: #d97706;
+            --risk-med-bg: #fffbeb;
+            --risk-low: #16a34a;
+            --risk-low-bg: #f0fdf4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-main);
+            background-color: #f1f5f9;
+            line-height: 1.5;
+            font-size: 10pt;
+        }
+
+        /* Screen Wrapper */
+        .page-container {
+            max-width: 210mm;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20mm 18mm;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+
+        /* Floating Action Bar (Screen Only) */
+        .action-bar {
+            position: sticky;
+            top: 15px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(15, 39, 68, 0.25);
+        }
+
+        .action-bar-title {
+            font-size: 9.5pt;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .print-btn {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 9pt;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .print-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            color: var(--primary);
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        h1 {
+            font-size: 18pt;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .subtitle {
+            font-size: 11pt;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 13pt;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+            margin-top: 22px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h2 .section-num {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 8.5pt;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 10.5pt;
+            color: var(--primary-light);
+            margin-top: 14px;
+            margin-bottom: 6px;
+        }
+
+        p {
+            margin-bottom: 9px;
+            text-align: justify;
+            color: #1e293b;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 4px;
+            color: #1e293b;
+        }
+
+        strong {
+            color: #0f172a;
+        }
+
+        /* Header Meta Block */
+        .meta-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 14px;
+            margin-bottom: 18px;
+        }
+
+        .inst-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .inst-details h3 {
+            font-size: 11pt;
+            color: var(--primary);
+            margin: 0 0 2px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .inst-details p {
+            font-size: 9pt;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .badge-ut2 {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            font-size: 8pt;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: right;
+        }
+
+        /* Team Table */
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 16px 0;
+            font-size: 9pt;
+        }
+
+        .team-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            text-align: left;
+            padding: 7px 10px;
+            font-weight: 700;
+            border: 1px solid var(--border-light);
+        }
+
+        .team-table td {
+            padding: 7px 10px;
+            border: 1px solid var(--border-light);
+            color: #334155;
+        }
+
+        .team-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        /* Cards & Callouts */
+        .callout-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--accent-blue);
+            border-top: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            padding: 10px 14px;
+            margin: 12px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 9.5pt;
+        }
+
+        .vision-mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0 16px 0;
+        }
+
+        .vm-card {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--accent-cyan);
+            padding: 10px 12px;
+            border-radius: 4px;
+        }
+
+        .vm-card h4 {
+            font-size: 9.5pt;
+            color: var(--primary);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vm-card p {
+            font-size: 9pt;
+            color: #334155;
+            margin: 0;
+            text-align: left;
+        }
+
+        /* Value Pipeline Strip */
+        .value-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f5f9;
+            border: 1px solid var(--border-light);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 10px 0 14px 0;
+        }
+
+        .value-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .value-step .step-tag {
+            font-size: 7.5pt;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent-blue);
+            display: block;
+        }
+
+        .value-step .step-label {
+            font-size: 9pt;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .value-arrow {
+            color: #94a3b8;
+            font-size: 11pt;
+            font-weight: 700;
+            padding: 0 4px;
+        }
+
+        /* Diagrams Container */
+        .diagram-container {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 14px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .diagram-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .diagram-title {
+            font-size: 9pt;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .diagram-caption {
+            font-size: 8pt;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .diagram-container svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Conceptual Mockup Card */
+        .mockup-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 14px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .mockup-header {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 8px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mockup-brand {
+            font-size: 9.5pt;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .mockup-watermark {
+            font-size: 7.5pt;
+            background: rgba(255,255,255,0.18);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .mockup-body {
+            padding: 12px 14px;
+        }
+
+        .mockup-alert-banner {
+            background: var(--risk-high-bg);
+            border: 1px solid #fecaca;
+            border-left: 4px solid var(--risk-high);
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .mockup-threat-name {
+            font-size: 10.5pt;
+            font-weight: 700;
+            color: #991b1b;
+        }
+
+        .mockup-threat-tag {
+            font-size: 8pt;
+            font-weight: 700;
+            background: var(--risk-high);
+            color: #ffffff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .mockup-confidence-note {
+            font-size: 7.5pt;
+            color: #64748b;
+            font-style: italic;
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        .mockup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .mockup-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 9px 11px;
+            border-radius: 4px;
+        }
+
+        .mockup-section h5 {
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .mockup-section ul, .mockup-section ol {
+            margin-left: 16px;
+            margin-bottom: 0;
+            font-size: 8.5pt;
+        }
+
+        .mockup-section li {
+            margin-bottom: 3px;
+            color: #334155;
+        }
+
+        /* 3 Tiers Comparison Box */
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 12px 0 14px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .tier-box {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 10px 11px;
+            font-size: 8.5pt;
+        }
+
+        .tier-box.simple {
+            border-top: 3px solid var(--accent-teal);
+        }
+
+        .tier-box.detailed {
+            border-top: 3px solid var(--accent-blue);
+        }
+
+        .tier-box.technical {
+            border-top: 3px solid #7c3aed;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            font-size: 7.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-bottom: 6px;
+        }
+
+        .tier-box.simple .tier-badge {
+            background: #ccfbf1;
+            color: #0f766e;
+        }
+
+        .tier-box.detailed .tier-badge {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tier-box.technical .tier-badge {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .tier-box p {
+            font-size: 8.5pt;
+            line-height: 1.4;
+            color: #334155;
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        /* Two column scope layout */
+        .scope-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 12px 0 16px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .scope-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 11px 13px;
+        }
+
+        .scope-card.core {
+            border-top: 3px solid var(--accent-blue);
+        }
+
+        .scope-card.future {
+            border-top: 3px solid #64748b;
+            background: #fafafa;
+        }
+
+        .scope-card h4 {
+            font-size: 9.5pt;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+
+        .scope-card ul {
+            margin-left: 16px;
+            margin-bottom: 0;
+            font-size: 8.5pt;
+        }
+
+        .scope-card li {
+            margin-bottom: 3.5px;
+        }
+
+        /* Concept alignment table */
+        .concept-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8.5pt;
+            margin: 10px 0 14px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .concept-table th {
+            background: #f1f5f9;
+            color: var(--primary);
+            text-align: left;
+            padding: 6px 9px;
+            border: 1px solid var(--border-light);
+            font-weight: 700;
+        }
+
+        .concept-table td {
+            padding: 6px 9px;
+            border: 1px solid var(--border-light);
+            color: #334155;
+            vertical-align: top;
+        }
+
+        .concept-table tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        /* Page breaks */
+        .page-break {
+            page-break-before: always;
+            break-before: page;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        /* Print Media Overrides */
+        @media print {
+            body {
+                background: #ffffff;
+                font-size: 9.5pt;
+            }
+
+            .page-container {
+                max-width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            h2 {
+                margin-top: 18px;
+                padding-bottom: 4px;
+            }
+
+            .diagram-container, .mockup-card, .scope-grid, .tiers-grid, .concept-table {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- Screen-Only Action Bar -->
+    <div class="action-bar no-print">
+        <div class="action-bar-title">
+            Unit Test 2 Project Description Report (Foundation of Cyber Security - STCS225)
+        </div>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+            Print / Save as PDF
+        </button>
+    </div>
+
+    <!-- Header Meta Block -->
+    <header class="meta-header">
+        <div class="inst-row">
+            <div class="inst-details">
+                <h3>Vijaybhoomi University</h3>
+                <p>Vijaybhoomi School of Science &amp; Technology</p>
+                <p>Department of Computer Science &amp; Engineering</p>
+            </div>
+            <div class="badge-ut2">
+                Unit Test 2 (UT2)<br>
+                Project Description Report<br>
+                Course: STCS225
+            </div>
+        </div>
+
+        <h1>CyberSafe: An AI-Powered Cybersecurity Threat Detection and Guidance Platform</h1>
+        <div class="subtitle">Foundation of Cyber Security (STCS225) | Academic Project Proposal</div>
+
+        <table class="team-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">S.No.</th>
+                    <th style="width: 46%;">Team Member Name</th>
+                    <th style="width: 26%;">Roll Number</th>
+                    <th style="width: 20%;">Project Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Rajdeep Kumar</strong></td>
+                    <td>[Roll Number]</td>
+                    <td>System Architecture &amp; Engines</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Rahul Purohit</strong></td>
+                    <td>[Roll Number]</td>
+                    <td>Input Parsers &amp; OCR Pipeline</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Ganesh Oraon</strong></td>
+                    <td>[Roll Number]</td>
+                    <td>Risk Engine &amp; Threat Scoring</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Adarsh Pandey</strong></td>
+                    <td>[Roll Number]</td>
+                    <td>LLM Explanation &amp; UI Guidance</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Vision and Mission -->
+        <div class="vision-mission-grid">
+            <div class="vm-card">
+                <h4>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                    Our Vision
+                </h4>
+                <p>"To make cybersecurity easier to understand and easier to act on for every internet user."</p>
+            </div>
+            <div class="vm-card">
+                <h4>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    Our Mission
+                </h4>
+                <p>"To provide accessible cybersecurity analysis that helps users identify threats, understand risks and take safer actions."</p>
+            </div>
+        </div>
+
+        <div class="value-strip">
+            <div class="value-step">
+                <span class="step-tag">Step 1</span>
+                <span class="step-label">Detect</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Step 2</span>
+                <span class="step-label">Understand</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Step 3</span>
+                <span class="step-label">Assess Risk</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Step 4</span>
+                <span class="step-label">Take Action</span>
+            </div>
+            <div class="value-arrow">&rarr;</div>
+            <div class="value-step">
+                <span class="step-tag">Step 5</span>
+                <span class="step-label">Stay Safe</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section 1: Introduction / Background -->
+    <section>
+        <h2><span class="section-num">1</span> Introduction and Background</h2>
+        <p>
+            In contemporary society, digital communication platforms such as electronic mail, short message services (SMS), instant messaging applications, and social networks have become essential for academic, professional, and personal activities. Along with this rapid digital transformation, everyday internet users are exposed to an increasing volume of deceptive digital interactions. Attackers continuously deploy misleading messages, impersonated bank notifications, artificial security alerts, and deceptive links designed to manipulate human trust.
+        </p>
+        <p>
+            While cybersecurity professionals have access to sophisticated defensive tooling, Security Information and Event Management (SIEM) systems, threat intelligence feeds, and automated sandbox environments, ordinary internet users possess few tools suited to their needs. When non-technical individuals encounter a suspicious message, their available options are typically limited to searching online search engines, consulting acquaintances, or guessing whether a link is benign. 
+        </p>
+        <p>
+            Standard security software often generates cryptic warning codes, technical jargon (such as domain mismatch, reverse DNS lookup failure, or certificate authority error), or unhelpful binary flags without explaining the underlying threat mechanism. This technical barrier leaves non-technical users vulnerable to manipulation.
+        </p>
+        <p>
+            The motivation behind the <strong>CyberSafe</strong> project is to bridge this gap between technical threat detection and practical user comprehension. The project proposes a unified, accessible cybersecurity platform where any user can submit suspicious digital content and receive an immediate, grounded assessment explaining what the threat is, why it is dangerous, and what concrete steps must be taken to remain protected.
+        </p>
+    </section>
+
+    <!-- Section 2: Problem Statement -->
+    <section>
+        <h2><span class="section-num">2</span> Problem Statement</h2>
+        <p>
+            Everyday internet users frequently encounter suspicious digital communication but lack the technical background to evaluate risks effectively. Specifically, non-technical users face four interrelated challenges:
+        </p>
+        <ul>
+            <li>
+                <strong>Identification Difficulty:</strong> Users cannot easily distinguish between authentic communications and sophisticated deceptive lures, including typosquatted domains, shortened redirection links, spoofed sender headers, and manipulative social engineering cues.
+            </li>
+            <li>
+                <strong>Threat Comprehension Barrier:</strong> Existing security tools produce technical reports suited for security analysts rather than ordinary citizens. Users are informed that a link is "flagged" or "untrusted," but are not given understandable context explaining the operational mechanics of the attack.
+            </li>
+            <li>
+                <strong>Impact Ambiguity:</strong> When faced with an alert, users often fail to understand what assets are genuinely at risk, such as session credentials, one-time passwords (OTPs), financial data, device integrity, or personal privacy.
+            </li>
+            <li>
+                <strong>Decision Paralysis and Action Vacuum:</strong> In the absence of step-by-step guidance, users often panic, ignore valid warnings, or take counter-productive actions (such as replying to a scammer or clicking links to "cancel" a fake subscription).
+            </li>
+        </ul>
+        <p>
+            Therefore, there is an urgent need for a unified platform that intakes untrusted inputs, performs multi-layered deterministic and statistical security analysis, and translates technical findings into clear, calibrated, and actionable guidance for people of all technical backgrounds.
+        </p>
+    </section>
+
+    <!-- Section 3: Project Objectives -->
+    <section>
+        <h2><span class="section-num">3</span> Project Objectives</h2>
+        <p>
+            The proposed CyberSafe project will pursue the following specific objectives:
+        </p>
+        <ol>
+            <li>
+                <strong>Develop a Unified Multi-Modal Intake Pipeline:</strong> To enable non-technical users to submit suspicious content through three everyday modalities: screenshots of interfaces, raw message text, and direct website URLs.
+            </li>
+            <li>
+                <strong>Implement Multi-Layered Threat Detection:</strong> To combine deterministic rule-based pattern matching, statistical machine learning feature classification, and network/domain security checks to identify threats without relying solely on generative artificial intelligence.
+            </li>
+            <li>
+                <strong>Formulate an Evidence-Grounded Risk Scoring Engine:</strong> To synthesize findings from parallel analysis engines into a mathematical risk score with clear severity tiers (Low, Medium, High) and protective ambiguity fail-safe boundaries.
+            </li>
+            <li>
+                <strong>Design a Personalized Multi-Tier Explanation Architecture:</strong> To translate raw technical telemetry into three user-selectable explanation tiers (Simple, Detailed, and Technical), ensuring that the same verified findings can be understood by users with varying security literacy.
+            </li>
+            <li>
+                <strong>Synthesize Actionable Remediation Plans:</strong> To automatically produce structured, step-by-step user instructions detailing what happened, why the content is risky, and what prioritized actions should be executed.
+            </li>
+            <li>
+                <strong>Enforce Defensive Security Engineering:</strong> To safeguard the platform against Server-Side Request Forgery (SSRF) and automatically redact Personally Identifiable Information (PII) before external processing.
+            </li>
+            <li>
+                <strong>Promote Digital Security Literacy:</strong> To educate users on foundational cybersecurity concepts (such as the CIA Triad, multi-factor authentication, and social engineering patterns) during routine threat assessments.
+            </li>
+            <li>
+                <strong>Establish an Extensible Architecture:</strong> To structure the platform modularly so that future capabilities (such as browser extensions, network monitoring, and enterprise dashboards) can be integrated without redesigning core pipeline stages.
+            </li>
+        </ol>
+    </section>
+
+    <!-- PAGE BREAK FOR CLEAN REPORT FLOW -->
+    <div class="page-break"></div>
+
+    <!-- Section 4: Scope of the Project -->
+    <section>
+        <h2><span class="section-num">4</span> Scope of the Project</h2>
+        <p>
+            To maintain academic rigor and project feasibility, the scope of CyberSafe is explicitly divided into the proposed core implementation scope for this course project and an extended scope reserved for future development.
+        </p>
+
+        <div class="scope-grid">
+            <div class="scope-card core">
+                <h4>A. Initial / Core Proposed Scope</h4>
+                <p style="font-size: 8.5pt; color: #475569; margin-bottom: 6px;">Target deliverables for the academic foundation project:</p>
+                <ul>
+                    <li><strong>Multi-Modal Intake:</strong> Direct ingestion of screenshots, pasted text, and website URLs.</li>
+                    <li><strong>Optical Character Recognition (OCR):</strong> Image pre-processing and text extraction from uploaded screenshots.</li>
+                    <li><strong>Text &amp; Header Parsing:</strong> Extraction of email headers, embedded hyperlinks, telephone numbers, and urgency phrases.</li>
+                    <li><strong>URL Parsing &amp; Sanitization:</strong> Domain normalization, punycode decoding, and redirect unpacking.</li>
+                    <li><strong>Defensive SSRF Shield:</strong> Socket-level IP validation blocking loopback (127.0.0.0/8), private subnets (RFC 1918), and cloud metadata IPs.</li>
+                    <li><strong>Client-Side PII Masking:</strong> Automatic redaction of credit cards, passwords, and sensitive identifiers.</li>
+                    <li><strong>Parallel Security Analysis:</strong> Deterministic signature rules, ML-based lexical/entropy classifiers, and domain/SSL checks.</li>
+                    <li><strong>Eight Core Threat Categories:</strong> Phishing, malicious URLs, social engineering, credential theft, basic malware indicators, account alerts, web vulnerabilities, and network indicators.</li>
+                    <li><strong>Multi-Tiered Explanation:</strong> User-configurable Simple, Detailed, and Technical output tiers.</li>
+                    <li><strong>Action Plan Generator:</strong> Interactive three-part remediation checklist for end users.</li>
+                </ul>
+            </div>
+
+            <div class="scope-card future">
+                <h4>B. Future / Extended Scope</h4>
+                <p style="font-size: 8.5pt; color: #475569; margin-bottom: 6px;">Potential capabilities for subsequent project phases:</p>
+                <ul>
+                    <li><strong>Real-Time Browser Extension:</strong> Automated inspection of links and active DOM elements during browsing.</li>
+                    <li><strong>Native Mobile Application:</strong> Direct operating system share-sheet integration for SMS and chat apps.</li>
+                    <li><strong>Mail Server Integration:</strong> Real-time API connectors for Google Workspace and Microsoft 365 inboxes.</li>
+                    <li><strong>Dynamic Sandbox Execution:</strong> Virtualized detonation chamber for safe runtime analysis of executable files.</li>
+                    <li><strong>Intrusion Detection System (IDS) Telemetry:</strong> Ingestion of packet capture (PCAP) logs and firewall alert streams.</li>
+                    <li><strong>Enterprise SIEM Dashboard:</strong> Centralized team threat tracking, incident triage, and aggregate reporting.</li>
+                    <li><strong>Automated Threat Blacklist Sync:</strong> Bidirectional integration with public threat intelligence feeds (STIX/TAXII).</li>
+                    <li><strong>Live Account Breach Monitoring:</strong> Integration with compromised credential databases for automated exposure alerts.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Proposed Solution -->
+    <section>
+        <h2><span class="section-num">5</span> Proposed Solution &amp; Technical Architecture</h2>
+        <p>
+            CyberSafe proposes a clean, five-stage asynchronous pipeline architecture. The fundamental engineering principle of the system is the strict separation of concerns between <strong>technical threat detection</strong> and <strong>natural language explanation</strong>. 
+        </p>
+
+        <!-- Diagram 1: High Level System Architecture -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Diagram 1: CyberSafe High-Level System Architecture</span>
+                <span class="diagram-caption">Conceptual Pipeline from Multi-Modal Ingestion to Grounded Action Plan</span>
+            </div>
+            <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gradPrimary" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#1e3a8a"/>
+                        <stop offset="100%" stop-color="#0f2744"/>
+                    </linearGradient>
+                    <linearGradient id="gradAccent" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#3b82f6"/>
+                        <stop offset="100%" stop-color="#1d4ed8"/>
+                    </linearGradient>
+                    <linearGradient id="gradTeal" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#0d9488"/>
+                        <stop offset="100%" stop-color="#0f766e"/>
+                    </linearGradient>
+                    <filter id="shadow" x="-3%" y="-6%" width="106%" height="116%" filterUnits="userSpaceOnUse">
+                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.08"/>
+                    </filter>
+                </defs>
+
+                <!-- Background Frame -->
+                <rect x="5" y="5" width="770" height="220" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+                <!-- Pipeline Stages -->
+                <!-- Stage: User & Client -->
+                <g filter="url(#shadow)">
+                    <rect x="20" y="35" width="95" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="20" y="35" width="95" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="67" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">USER &amp; CLIENT</text>
+                    <text x="67" y="80" fill="#1e293b" font-size="8" font-weight="bold" text-anchor="middle">Multi-Modal</text>
+                    <rect x="28" y="92" width="79" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="67" y="105" fill="#334155" font-size="7.5" text-anchor="middle">Screenshot</text>
+                    <rect x="28" y="118" width="79" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="67" y="131" fill="#334155" font-size="7.5" text-anchor="middle">Raw Text</text>
+                    <rect x="28" y="144" width="79" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="67" y="157" fill="#334155" font-size="7.5" text-anchor="middle">Website URL</text>
+                </g>
+
+                <!-- Arrow 1 -->
+                <path d="M 115 112 L 135 112" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+                <polygon points="135,109 141,112 135,115" fill="#2563eb"/>
+
+                <!-- Stage: Stage 1 Input Processor -->
+                <g filter="url(#shadow)">
+                    <rect x="145" y="35" width="115" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="145" y="35" width="115" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="202" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">1. INPUT PROCESSOR</text>
+                    
+                    <rect x="153" y="70" width="99" height="22" rx="3" fill="#eff6ff" stroke="#bfdbfe"/>
+                    <text x="202" y="84" fill="#1e40af" font-size="7.5" font-weight="600" text-anchor="middle">OCR / Vision Parser</text>
+
+                    <rect x="153" y="98" width="99" height="22" rx="3" fill="#eff6ff" stroke="#bfdbfe"/>
+                    <text x="202" y="112" fill="#1e40af" font-size="7.5" font-weight="600" text-anchor="middle">Text &amp; Header Parser</text>
+
+                    <rect x="153" y="126" width="99" height="22" rx="3" fill="#eff6ff" stroke="#bfdbfe"/>
+                    <text x="202" y="140" fill="#1e40af" font-size="7.5" font-weight="600" text-anchor="middle">URL &amp; Domain Normalizer</text>
+
+                    <rect x="153" y="156" width="99" height="24" rx="3" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="2 2"/>
+                    <text x="202" y="171" fill="#475569" font-size="7" text-anchor="middle">SSRF Shield &amp; PII Scrub</text>
+                </g>
+
+                <!-- Arrow 2 -->
+                <polygon points="263,109 269,112 263,115" fill="#2563eb"/>
+                <path d="M 260 112 L 268 112" stroke="#2563eb" stroke-width="2"/>
+
+                <!-- Stage: Stage 2 Parallel Engines -->
+                <g filter="url(#shadow)">
+                    <rect x="272" y="35" width="125" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="272" y="35" width="125" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="334" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">2. SECURITY ENGINES</text>
+                    
+                    <rect x="280" y="70" width="109" height="28" rx="3" fill="#f0fdf4" stroke="#bbf7d0"/>
+                    <text x="334" y="83" fill="#166534" font-size="7.5" font-weight="bold" text-anchor="middle">Rule Engine</text>
+                    <text x="334" y="93" fill="#166534" font-size="6.5" text-anchor="middle">Heuristics, Urgency Regex</text>
+
+                    <rect x="280" y="105" width="109" height="28" rx="3" fill="#f0fdf4" stroke="#bbf7d0"/>
+                    <text x="334" y="118" fill="#166534" font-size="7.5" font-weight="bold" text-anchor="middle">ML Feature Classifier</text>
+                    <text x="334" y="128" fill="#166534" font-size="6.5" text-anchor="middle">Entropy, Subdomain Vectors</text>
+
+                    <rect x="280" y="140" width="109" height="28" rx="3" fill="#f0fdf4" stroke="#bbf7d0"/>
+                    <text x="334" y="153" fill="#166534" font-size="7.5" font-weight="bold" text-anchor="middle">Security Checks</text>
+                    <text x="334" y="163" fill="#166534" font-size="6.5" text-anchor="middle">SSL, Domain Age, Blocklists</text>
+                </g>
+
+                <!-- Arrow 3 -->
+                <polygon points="400,109 406,112 400,115" fill="#2563eb"/>
+                <path d="M 397 112 L 405 112" stroke="#2563eb" stroke-width="2"/>
+
+                <!-- Stage: Stage 3 Risk Engine -->
+                <g filter="url(#shadow)">
+                    <rect x="409" y="35" width="115" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="409" y="35" width="115" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="466" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">3. RISK ENGINE</text>
+
+                    <rect x="417" y="70" width="99" height="34" rx="3" fill="#fef3c7" stroke="#fde68a"/>
+                    <text x="466" y="83" fill="#92400e" font-size="7.5" font-weight="bold" text-anchor="middle">Weighted Synthesis</text>
+                    <text x="466" y="95" fill="#92400e" font-size="6.5" text-anchor="middle">w1*Rules + w2*ML + w3*Chk</text>
+
+                    <rect x="417" y="112" width="99" height="32" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                    <text x="466" y="125" fill="#334155" font-size="7.5" font-weight="bold" text-anchor="middle">Severity Verdict</text>
+                    <text x="466" y="137" fill="#334155" font-size="6.5" text-anchor="middle">High | Medium | Low</text>
+
+                    <rect x="417" y="152" width="99" height="26" rx="3" fill="#fee2e2" stroke="#fecaca"/>
+                    <text x="466" y="167" fill="#991b1b" font-size="7" font-weight="600" text-anchor="middle">Fail-Safe Logic</text>
+                </g>
+
+                <!-- Arrow 4 -->
+                <polygon points="527,109 533,112 527,115" fill="#2563eb"/>
+                <path d="M 524 112 L 532 112" stroke="#2563eb" stroke-width="2"/>
+
+                <!-- Stage: Stage 4 LLM Layer -->
+                <g filter="url(#shadow)">
+                    <rect x="536" y="35" width="115" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="536" y="35" width="115" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="593" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">4. EXPLANATION</text>
+
+                    <rect x="544" y="68" width="99" height="24" rx="3" fill="#faf5ff" stroke="#e9d5ff"/>
+                    <text x="593" y="82" fill="#6b21a8" font-size="7.5" font-weight="bold" text-anchor="middle">Prompt Grounding</text>
+
+                    <rect x="544" y="98" width="99" height="42" rx="3" fill="#ffffff" stroke="#cbd5e1"/>
+                    <text x="593" y="110" fill="#1e293b" font-size="7" font-weight="bold" text-anchor="middle">3 Personalized Tiers</text>
+                    <text x="593" y="121" fill="#0d9488" font-size="6.5" text-anchor="middle">&bull; Simple (Non-tech)</text>
+                    <text x="593" y="130" fill="#2563eb" font-size="6.5" text-anchor="middle">&bull; Detailed (Balanced)</text>
+                    <text x="593" y="139" fill="#7c3aed" font-size="6.5" text-anchor="middle">&bull; Technical (Forensic)</text>
+
+                    <rect x="544" y="148" width="99" height="28" rx="3" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="2 2"/>
+                    <text x="593" y="161" fill="#475569" font-size="6.5" font-weight="bold" text-anchor="middle">Resilient Fallback</text>
+                    <text x="593" y="170" fill="#64748b" font-size="6" text-anchor="middle">Deterministic Generator</text>
+                </g>
+
+                <!-- Arrow 5 -->
+                <polygon points="654,109 660,112 654,115" fill="#2563eb"/>
+                <path d="M 651 112 L 659 112" stroke="#2563eb" stroke-width="2"/>
+
+                <!-- Stage: Stage 5 Action Plan -->
+                <g filter="url(#shadow)">
+                    <rect x="663" y="35" width="102" height="155" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+                    <rect x="663" y="35" width="102" height="26" rx="6" fill="url(#gradPrimary)"/>
+                    <text x="714" y="52" fill="#ffffff" font-size="8.5" font-weight="bold" text-anchor="middle">5. ACTION PLAN</text>
+
+                    <rect x="671" y="70" width="86" height="24" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="714" y="84" fill="#0f172a" font-size="7" font-weight="bold" text-anchor="middle">What Happened</text>
+
+                    <rect x="671" y="100" width="86" height="24" rx="3" fill="#f1f5f9" stroke="#cbd5e1"/>
+                    <text x="714" y="114" fill="#0f172a" font-size="7" font-weight="bold" text-anchor="middle">Why Risky</text>
+
+                    <rect x="671" y="130" width="86" height="24" rx="3" fill="#f0fdf4" stroke="#86efac"/>
+                    <text x="714" y="144" fill="#166534" font-size="7" font-weight="bold" text-anchor="middle">What To Do</text>
+
+                    <text x="714" y="175" fill="#2563eb" font-size="7" font-weight="bold" text-anchor="middle">&rarr; Return to User</text>
+                </g>
+            </svg>
+        </div>
+
+        <h3>5.1 Stage-by-Stage Operational Workflow</h3>
+        <p>
+            The execution flow proceeds sequentially across five distinct stages to guarantee both mathematical accuracy and plain-language accessibility:
+        </p>
+
+        <h4>Stage 1: Input Processor &amp; Pre-processing Shield</h4>
+        <p>
+            When a user provides input via the web or mobile interface, the request is directed to the Input Processor. For screenshots, an Optical Character Recognition (OCR) pre-parser extracts textual tokens, measures text entropy, and flags blurry or unreadable submissions. For raw text, email headers, embedded links, and telephone numbers are extracted. For URLs, punycode strings are normalized and redirect hops are evaluated. Simultaneously, a defensive Server-Side Request Forgery (SSRF) shield inspects destination IP resolutions before socket creation to block loopback interfaces (127.0.0.1) and internal network blocks (10.0.0.0/8, 192.168.0.0/16, and cloud metadata 169.254.169.254). Personal identifiers such as passwords, payment cards, and phone numbers are scrubbed to protect user privacy.
+        </p>
+
+        <h4>Stage 2: Parallel Security Analysis Engines</h4>
+        <p>
+            The normalized content is dispatched simultaneously to three independent security engines running asynchronously:
+        </p>
+        <ul>
+            <li>
+                <strong>Deterministic Rules Engine:</strong> Executes calibrated regex heuristics and signature checks. It identifies social-engineering urgency phrases (such as "immediate action required" or "account will be suspended within 24 hours"), credential solicitation traps, brand typosquatting ("Paypa1", "Micros0ft"), and known link-shortener domains.
+            </li>
+            <li>
+                <strong>Machine Learning Feature Classifier:</strong> Evaluates lightweight lexical and entropy vectors, including URL character entropy, count of subdomains, abnormal token frequencies, and domain age statistics to emit a statistical threat probability.
+            </li>
+            <li>
+                <strong>Security Checks Engine:</strong> Conducts deterministic infrastructure verifications including SSL/TLS certificate validity, certificate lifetime remaining, sender SPF/DKIM/DMARC alignment (for email headers), and domain age verification via WHOIS queries.
+            </li>
+        </ul>
+
+        <!-- Diagram 2: Security Analysis Architecture -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Diagram 2: CyberSafe Security Analysis Architecture</span>
+                <span class="diagram-caption">Detailed Inspection, Evidence Aggregation, and Calibrated Risk Classification</span>
+            </div>
+            <svg viewBox="0 0 780 230" xmlns="http://www.w3.org/2000/svg">
+                <!-- Frame -->
+                <rect x="5" y="5" width="770" height="220" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+                <!-- Left: Normalized Input -->
+                <rect x="20" y="65" width="110" height="100" rx="6" fill="#ffffff" stroke="#0f2744" stroke-width="1.5"/>
+                <rect x="20" y="65" width="110" height="24" rx="6" fill="#0f2744"/>
+                <text x="75" y="81" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">NORMALIZED INPUT</text>
+                <text x="75" y="105" fill="#334155" font-size="7" text-anchor="middle">&bull; OCR Tokens</text>
+                <text x="75" y="120" fill="#334155" font-size="7" text-anchor="middle">&bull; Sanitized URLs</text>
+                <text x="75" y="135" fill="#334155" font-size="7" text-anchor="middle">&bull; Header Metadata</text>
+                <text x="75" y="150" fill="#334155" font-size="7" text-anchor="middle">&bull; Redacted Text</text>
+
+                <!-- Fan-out lines -->
+                <path d="M 130 115 L 165 60" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+                <path d="M 130 115 L 165 115" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+                <path d="M 130 115 L 165 170" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+
+                <!-- 3 Engine Blocks -->
+                <rect x="165" y="40" width="155" height="42" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2"/>
+                <text x="242" y="56" fill="#1e40af" font-size="8" font-weight="bold" text-anchor="middle">Deterministic Rules Engine</text>
+                <text x="242" y="70" fill="#1e40af" font-size="7" text-anchor="middle">Signatures, Urgency Regex, Brand Typos</text>
+
+                <rect x="165" y="95" width="155" height="42" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+                <text x="242" y="111" fill="#15803d" font-size="8" font-weight="bold" text-anchor="middle">ML Feature Classifier</text>
+                <text x="242" y="125" fill="#15803d" font-size="7" text-anchor="middle">Lexical Entropy, Token Vector Models</text>
+
+                <rect x="165" y="150" width="155" height="42" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+                <text x="242" y="166" fill="#b45309" font-size="8" font-weight="bold" text-anchor="middle">Security Checks Engine</text>
+                <text x="242" y="180" fill="#b45309" font-size="7" text-anchor="middle">SSL Validity, WHOIS Age, Reputation</text>
+
+                <!-- Fan-in lines -->
+                <path d="M 320 60 L 355 115" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+                <path d="M 320 115 L 355 115" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+                <path d="M 320 170 L 355 115" stroke="#2563eb" stroke-width="1.5" fill="none"/>
+
+                <!-- Middle: Evidence Collection -->
+                <rect x="355" y="60" width="125" height="110" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+                <rect x="355" y="60" width="125" height="24" rx="6" fill="#334155"/>
+                <text x="417" y="76" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">EVIDENCE RECORD</text>
+                <text x="417" y="98" fill="#334155" font-size="7" text-anchor="middle">Matched Rule Signatures</text>
+                <text x="417" y="114" fill="#334155" font-size="7" text-anchor="middle">ML Suspicion Ratio</text>
+                <text x="417" y="130" fill="#334155" font-size="7" text-anchor="middle">Failed Infrastructure Checks</text>
+                <text x="417" y="152" fill="#0d9488" font-size="7" font-weight="bold" text-anchor="middle">Structured JSON Telemetry</text>
+
+                <!-- Arrow to Synthesis -->
+                <path d="M 480 115 L 510 115" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="510,112 516,115 510,118" fill="#2563eb"/>
+
+                <!-- Scoring Core -->
+                <rect x="520" y="45" width="120" height="140" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+                <rect x="520" y="45" width="120" height="24" rx="6" fill="#1e3a8a"/>
+                <text x="580" y="61" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">SCORING CORE</text>
+                
+                <rect x="528" y="76" width="104" height="28" rx="3" fill="#f8fafc" stroke="#cbd5e1"/>
+                <text x="580" y="88" fill="#0f172a" font-size="7" font-weight="bold" text-anchor="middle">Weights Formula</text>
+                <text x="580" y="98" fill="#475569" font-size="6.5" text-anchor="middle">0.35(R) + 0.35(ML) + 0.30(C)</text>
+
+                <rect x="528" y="110" width="104" height="30" rx="3" fill="#fef2f2" stroke="#fecaca"/>
+                <text x="580" y="122" fill="#991b1b" font-size="7" font-weight="bold" text-anchor="middle">Ambiguity Fail-Safe</text>
+                <text x="580" y="133" fill="#991b1b" font-size="6.5" text-anchor="middle">Boundary Promotion (+0.03)</text>
+
+                <rect x="528" y="146" width="104" height="28" rx="3" fill="#f0fdf4" stroke="#bbf7d0"/>
+                <text x="580" y="159" fill="#166534" font-size="7" font-weight="bold" text-anchor="middle">Agreement Metric</text>
+                <text x="580" y="169" fill="#166534" font-size="6.5" text-anchor="middle">Rules-to-ML Alignment</text>
+
+                <!-- Arrow to Verdict -->
+                <path d="M 640 115 L 665 115" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="665,112 671,115 665,118" fill="#2563eb"/>
+
+                <!-- Right: Final Verdict -->
+                <rect x="675" y="45" width="90" height="140" rx="6" fill="#ffffff" stroke="#0f2744" stroke-width="1.5"/>
+                <rect x="675" y="45" width="90" height="24" rx="6" fill="#0f2744"/>
+                <text x="720" y="61" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle">RISK VERDICT</text>
+                
+                <rect x="682" y="77" width="76" height="22" rx="3" fill="#fee2e2" stroke="#dc2626"/>
+                <text x="720" y="91" fill="#991b1b" font-size="7.5" font-weight="bold" text-anchor="middle">HIGH (&gt;= 0.75)</text>
+
+                <rect x="682" y="105" width="76" height="22" rx="3" fill="#fef3c7" stroke="#d97706"/>
+                <text x="720" y="119" fill="#92400e" font-size="7.5" font-weight="bold" text-anchor="middle">MED (0.40-0.74)</text>
+
+                <rect x="682" y="133" width="76" height="22" rx="3" fill="#dcfce7" stroke="#16a34a"/>
+                <text x="720" y="147" fill="#166534" font-size="7.5" font-weight="bold" text-anchor="middle">LOW (&lt; 0.40)</text>
+
+                <text x="720" y="174" fill="#2563eb" font-size="7" font-weight="bold" text-anchor="middle">&rarr; Stage 4</text>
+            </svg>
+        </div>
+
+        <!-- PAGE BREAK FOR CLEAN REPORT FLOW -->
+        <div class="page-break"></div>
+
+        <h4>Stage 3: Risk Synthesis &amp; Scoring Formulation</h4>
+        <p>
+            The Risk Engine synthesizes the telemetry from Stage 2 into a single unified mathematical verdict. It calculates a weighted composite score using predefined, calibratable coefficients:
+        </p>
+        <div class="callout-box">
+            <strong>Proposed Scoring Formula:</strong><br>
+            <code>risk_score = (0.35 * rules_score) + (0.35 * ml_probability) + (0.30 * failed_checks_ratio)</code><br>
+            <span style="font-size: 8.5pt; color: #475569;">
+                Where <code>rules_score</code> is normalized between 0.0 and 1.0, <code>ml_probability</code> denotes the classifier's threat estimation, and <code>failed_checks_ratio</code> represents the proportion of failed technical validations.
+            </span>
+        </div>
+        <p>
+            The resulting numerical score maps into three calibrated severity tiers:
+        </p>
+        <ul>
+            <li><strong>High Risk (Score &gt;= 0.75):</strong> Strong presence of malicious indicators, urgent manipulation, or known blacklisted infrastructure.</li>
+            <li><strong>Medium Risk (0.40 &lt;= Score &lt; 0.75):</strong> Ambiguous indicators, suspicious redirection chains, or newly registered domains lacking verified reputations.</li>
+            <li><strong>Low Risk (Score &lt; 0.40):</strong> Benign structural patterns, valid cryptographic certificates, and absence of deceptive keywords.</li>
+        </ul>
+        <p>
+            <strong>Fail-Safe Ambiguity Boundary:</strong> A vital defensive principle of the platform is the fail-safe boundary rule. If a computed score falls within a narrow boundary margin (+/- 0.03 of a threshold, such as 0.73 or 0.38), the system will automatically promote the verdict to the higher risk category. In cybersecurity, the cost of a false negative (failing to alert a user to an active scam) is catastrophic, whereas the cost of a conservative warning is negligible.
+        </p>
+
+        <h4>Stage 4: LLM Explanation Layer (Crucial Design Principle)</h4>
+        <div class="callout-box" style="border-left-color: #7c3aed; background: #faf5ff;">
+            <strong>Fundamental AI Design Principle:</strong> The proposed platform does <em>not</em> rely on a Large Language Model as an unconstrained threat detector. Generative AI models are susceptible to hallucination, prompt injection, and inconsistent decision boundaries. Therefore, the LLM will serve exclusively as an <strong>explanation and communication layer</strong>. It will be provided with strictly grounded telemetry from the Risk Engine (verified rule triggers, domain age, certificate state, and threat category) and tasked with translating those findings into clear language.
+        </div>
+        <p>
+            To serve users of all backgrounds, the explanation engine will produce three simultaneous explanation tiers:
+        </p>
+
+        <div class="tiers-grid">
+            <div class="tier-box simple">
+                <span class="tier-badge">Tier 1: Simple</span>
+                <p><strong>Audience:</strong> Non-technical users, school students, elderly individuals.</p>
+                <p style="margin-top: 4px; font-style: italic; color: #0f766e;">
+                    "This message looks like a scam. Do not click the link or share your password or OTP with anyone."
+                </p>
+            </div>
+            <div class="tier-box detailed">
+                <span class="tier-badge">Tier 2: Detailed</span>
+                <p><strong>Audience:</strong> General professionals, small business staff, undergraduate students.</p>
+                <p style="margin-top: 4px; font-style: italic; color: #1e40af;">
+                    "This message contains several phishing indicators, including urgent language, a suspicious link, and an unauthorized request for confidential login details."
+                </p>
+            </div>
+            <div class="tier-box technical">
+                <span class="tier-badge">Tier 3: Technical</span>
+                <p><strong>Audience:</strong> IT staff, system administrators, security students.</p>
+                <p style="margin-top: 4px; font-style: italic; color: #6d28d9;">
+                    "Potential credential harvesting attack. Indicators include lookalike domain structure, absence of SPF/DKIM validation, and social engineering urgency cues."
+                </p>
+            </div>
+        </div>
+
+        <p>
+            <strong>Resilient Deterministic Fallback:</strong> In the event of external API throttling, network timeouts, or latency exceeding 3.0 seconds, the platform will immediately bypass the LLM and employ an internal deterministic template synthesizer. This guarantees that the user receives an immediate, accurate security assessment even if cloud AI services are degraded.
+        </p>
+
+        <h4>Stage 5: Action Plan Generator</h4>
+        <p>
+            The final stage organizes the assessment into three structured, intuitive sections:
+        </p>
+        <ol>
+            <li><strong>What Happened:</strong> A plain-language summary of the observed digital event (e.g., "You received an SMS claiming your bank card has been blocked due to suspicious activity").</li>
+            <li><strong>Why It Is Risky:</strong> A transparent explanation of the real-world hazard (e.g., "The link leads to an unverified website designed to steal your debit card details and OTP").</li>
+            <li><strong>What To Do:</strong> A prioritized, numbered checklist guiding the user to safety (e.g., 1. Do not click the link; 2. Never disclose one-time passwords; 3. Contact the bank using the phone number printed on the physical card).</li>
+        </ol>
+
+        <!-- Diagram 3: User Experience Flow -->
+        <div class="diagram-container">
+            <div class="diagram-header">
+                <span class="diagram-title">Diagram 3: CyberSafe User Experience Flow</span>
+                <span class="diagram-caption">Complete End-to-End User Journey from Threat Encounter to Safer Action</span>
+            </div>
+            <svg viewBox="0 0 780 160" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect x="5" y="5" width="770" height="150" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+                <!-- Node 1: Encounter -->
+                <rect x="20" y="30" width="105" height="100" rx="6" fill="#ffffff" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="20" y="30" width="105" height="22" rx="6" fill="#ef4444"/>
+                <text x="72" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">1. ENCOUNTER</text>
+                <text x="72" y="70" fill="#334155" font-size="7" text-anchor="middle">Suspicious Email,</text>
+                <text x="72" y="83" fill="#334155" font-size="7" text-anchor="middle">SMS, WhatsApp,</text>
+                <text x="72" y="96" fill="#334155" font-size="7" text-anchor="middle">Website Link, or</text>
+                <text x="72" y="109" fill="#334155" font-size="7" text-anchor="middle">Login Alert</text>
+
+                <!-- Connector 1 -->
+                <path d="M 125 80 L 150 80" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="150,77 156,80 150,83" fill="#2563eb"/>
+
+                <!-- Node 2: Submit -->
+                <rect x="156" y="30" width="105" height="100" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5"/>
+                <rect x="156" y="30" width="105" height="22" rx="6" fill="#3b82f6"/>
+                <text x="208" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">2. SUBMIT</text>
+                <text x="208" y="68" fill="#334155" font-size="7" text-anchor="middle">&bull; Upload Screenshot</text>
+                <text x="208" y="82" fill="#334155" font-size="7" text-anchor="middle">&bull; Paste Text</text>
+                <text x="208" y="96" fill="#334155" font-size="7" text-anchor="middle">&bull; Enter Web URL</text>
+                <text x="208" y="114" fill="#1e40af" font-size="6.5" font-weight="600" text-anchor="middle">Choose Tone</text>
+
+                <!-- Connector 2 -->
+                <path d="M 261 80 L 286 80" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="286,77 292,80 286,83" fill="#2563eb"/>
+
+                <!-- Node 3: Analyze -->
+                <rect x="292" y="30" width="105" height="100" rx="6" fill="#ffffff" stroke="#0f2744" stroke-width="1.5"/>
+                <rect x="292" y="30" width="105" height="22" rx="6" fill="#0f2744"/>
+                <text x="344" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">3. ANALYZE</text>
+                <text x="344" y="70" fill="#334155" font-size="7" text-anchor="middle">Input Parsing &amp;</text>
+                <text x="344" y="83" fill="#334155" font-size="7" text-anchor="middle">Parallel Engines</text>
+                <text x="344" y="98" fill="#16a34a" font-size="6.5" font-weight="bold" text-anchor="middle">&bull; Rules &bull; ML</text>
+                <text x="344" y="112" fill="#16a34a" font-size="6.5" font-weight="bold" text-anchor="middle">&bull; Security Checks</text>
+
+                <!-- Connector 3 -->
+                <path d="M 397 80 L 422 80" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="422,77 428,80 422,83" fill="#2563eb"/>
+
+                <!-- Node 4: Verdict -->
+                <rect x="428" y="30" width="105" height="100" rx="6" fill="#ffffff" stroke="#d97706" stroke-width="1.5"/>
+                <rect x="428" y="30" width="105" height="22" rx="6" fill="#d97706"/>
+                <text x="480" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">4. VERDICT</text>
+                <text x="480" y="70" fill="#334155" font-size="7" text-anchor="middle">Risk Engine Result:</text>
+                <text x="480" y="86" fill="#991b1b" font-size="7.5" font-weight="bold" text-anchor="middle">High | Med | Low</text>
+                <text x="480" y="102" fill="#334155" font-size="7" text-anchor="middle">Threat Category &amp;</text>
+                <text x="480" y="115" fill="#334155" font-size="7" text-anchor="middle">Evidence Synthesis</text>
+
+                <!-- Connector 4 -->
+                <path d="M 533 80 L 558 80" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="558,77 564,80 558,83" fill="#2563eb"/>
+
+                <!-- Node 5: Understand -->
+                <rect x="564" y="30" width="100" height="100" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.5"/>
+                <rect x="564" y="30" width="100" height="22" rx="6" fill="#7c3aed"/>
+                <text x="614" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">5. UNDERSTAND</text>
+                <text x="614" y="70" fill="#6b21a8" font-size="7" font-weight="bold" text-anchor="middle">Personalized View</text>
+                <text x="614" y="85" fill="#334155" font-size="6.5" text-anchor="middle">&bull; What Happened</text>
+                <text x="614" y="98" fill="#334155" font-size="6.5" text-anchor="middle">&bull; Why It Is Risky</text>
+                <text x="614" y="111" fill="#334155" font-size="6.5" text-anchor="middle">&bull; Tailored Tone</text>
+
+                <!-- Connector 5 -->
+                <path d="M 664 80 L 689 80" stroke="#2563eb" stroke-width="2"/>
+                <polygon points="689,77 695,80 689,83" fill="#2563eb"/>
+
+                <!-- Node 6: Action -->
+                <rect x="695" y="30" width="75" height="100" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+                <rect x="695" y="30" width="75" height="22" rx="6" fill="#16a34a"/>
+                <text x="732" y="45" fill="#ffffff" font-size="7.5" font-weight="bold" text-anchor="middle">6. ACTION</text>
+                <text x="732" y="72" fill="#166534" font-size="7" font-weight="bold" text-anchor="middle">Safer</text>
+                <text x="732" y="85" fill="#166534" font-size="7" font-weight="bold" text-anchor="middle">Choice</text>
+                <text x="732" y="103" fill="#334155" font-size="6.5" text-anchor="middle">Link Ignored,</text>
+                <text x="732" y="115" fill="#334155" font-size="6.5" text-anchor="middle">Data Protected</text>
+            </svg>
+        </div>
+
+        <!-- PAGE BREAK FOR CLEAN REPORT FLOW -->
+        <div class="page-break"></div>
+
+        <h3>5.2 Conceptual User Interface Mockup</h3>
+        <p>
+            To illustrate how the proposed architecture translates complex multi-engine telemetry into an accessible interface, a conceptual user interface design is presented below:
+        </p>
+
+        <!-- Conceptual UI Mockup Component -->
+        <div class="mockup-card">
+            <div class="mockup-header">
+                <div class="mockup-brand">
+                    CYBERSAFE 🛡️ &nbsp;|&nbsp; Threat Intelligence &amp; Guidance Console
+                </div>
+                <div class="mockup-watermark">
+                    Conceptual Interface Example (Illustrative UI Prototype)
+                </div>
+            </div>
+            <div class="mockup-body">
+                <div class="mockup-alert-banner">
+                    <div>
+                        <div class="mockup-threat-name">⚠️ HIGH RISK DETECTED</div>
+                        <div style="font-size: 8.5pt; color: #7f1d1d; margin-top: 2px;">
+                            Primary Threat Category: <strong>Phishing / Social Engineering</strong>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="mockup-threat-tag">CRITICAL ALERT</span>
+                        <div class="mockup-confidence-note">
+                            Confidence: 94% (Conceptual UI Example)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mockup-grid">
+                    <div class="mockup-section">
+                        <h5>🔍 Why is this message suspicious?</h5>
+                        <ul>
+                            <li><strong>Urgency Cues:</strong> Contains phrases demanding immediate action ("within 24 hours").</li>
+                            <li><strong>Lookalike Domain:</strong> Links to <code>paypa1-security-verification.xyz</code> rather than the legitimate domain.</li>
+                            <li><strong>Credential Trap:</strong> Prompts the recipient to re-enter account credentials and SMS OTP.</li>
+                            <li><strong>Inconsistent Sender:</strong> Sender address fails SPF and DKIM domain authenticity checks.</li>
+                        </ul>
+                    </div>
+                    <div class="mockup-section">
+                        <h5>💥 What could happen if you proceed?</h5>
+                        <ul>
+                            <li><strong>Account Takeover:</strong> Unauthorized parties could obtain your login email and password.</li>
+                            <li><strong>Financial Theft:</strong> Compromised two-factor codes could allow fraudulent transactions.</li>
+                            <li><strong>Identity Compromise:</strong> Personal profile details could be used for subsequent impersonation scams.</li>
+                            <li><strong>Malware Download:</strong> Secondary redirects may attempt to install deceptive software.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mockup-section" style="background: #f0fdf4; border-color: #bbf7d0;">
+                    <h5 style="color: #166534;">✅ What should you do right now? (Action Plan)</h5>
+                    <ol>
+                        <li><strong>Do Not Click:</strong> Do not open the link or tap any buttons inside the message.</li>
+                        <li><strong>Protect Your Credentials:</strong> Never enter your password or one-time password on unverified web pages.</li>
+                        <li><strong>Verify Independently:</strong> Navigate to the organization's official website directly through a bookmarked URL or search engine.</li>
+                        <li><strong>Take Protective Steps:</strong> If credentials were entered previously, change your account password immediately from a secure device.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Cybersecurity Concepts Alignment -->
+    <section>
+        <h2><span class="section-num">6</span> Cybersecurity Foundations &amp; Conceptual Alignment</h2>
+        <p>
+            The proposed CyberSafe platform directly operationalizes fundamental principles taught in the <em>Foundation of Cyber Security (STCS225)</em> curriculum. The table below illustrates how the proposed architecture maps to established cybersecurity concepts:
+        </p>
+
+        <table class="concept-table">
+            <thead>
+                <tr>
+                    <th style="width: 28%;">Cybersecurity Domain</th>
+                    <th style="width: 32%;">Foundational Principle</th>
+                    <th style="width: 40%;">Proposed Implementation in CyberSafe</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>The CIA Triad</strong></td>
+                    <td>Confidentiality, Integrity, Availability</td>
+                    <td>
+                        Protects <em>Confidentiality</em> via PII scrubbing and credential phishing detection; protects <em>Integrity</em> by verifying sender authentication (SPF/DKIM); supports <em>Availability</em> via resilient fallback architecture.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Authentication &amp; Access Control</strong></td>
+                    <td>Passwords, Multi-Factor Authentication (MFA), OTP</td>
+                    <td>
+                        Identifies social engineering patterns targeting two-factor credentials and warns users against sharing dynamic one-time authentication tokens.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Threats, Attacks &amp; Vulnerabilities</strong></td>
+                    <td>Phishing, Social Engineering, Typosquatting</td>
+                    <td>
+                        Rules Engine flags deceptive brand mimics (e.g., Unicode lookalikes), emotional coercion, and artificial urgency.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Network &amp; Web Security</strong></td>
+                    <td>HTTPS, SSL/TLS, DNS Spoofing, SSRF</td>
+                    <td>
+                        Evaluates SSL certificate expiration and certificate authorities; employs pre-socket IP filtering to defeat Server-Side Request Forgery attempts.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Defensive Engineering Principles</strong></td>
+                    <td>Fail-Safe Defaults, Least Privilege, Defense in Depth</td>
+                    <td>
+                        Employs fail-safe threshold promotion (+/- 0.03 boundary elevation) and multi-layered analysis across independent detection engines.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Section 7: Conclusion & Summary of Deliverables -->
+    <section>
+        <h2><span class="section-num">7</span> Project Proposal Summary</h2>
+        <p>
+            The CyberSafe project represents a comprehensive, student-led proposal to democratize cybersecurity threat detection. By combining multi-modal ingestion (screenshots, text, and URLs), parallel deterministic and machine-learning security analysis, grounded risk scoring, and a multi-tiered natural language explanation layer, the platform will empower non-technical internet users to make informed, safe decisions.
+        </p>
+        <p>
+            This Unit Test 2 proposal outlines a rigorous, modular design that strictly adheres to sound software and security principles: the LLM is restricted to a grounded communication role, system boundaries are defended against SSRF and data leakage, and verified telemetry is translated into actionable guidance. Upon approval, the project team will proceed with the implementation of the core proposed pipeline for the academic term.
+        </p>
+
+        <div style="margin-top: 20px; border-top: 1px solid #cbd5e1; padding-top: 12px; display: flex; justify-content: space-between; font-size: 8pt; color: #64748b;">
+            <div>
+                <strong>Course:</strong> Foundation of Cyber Security (STCS225)<br>
+                <strong>Institution:</strong> Vijaybhoomi University
+            </div>
+            <div style="text-align: right;">
+                <strong>Document Type:</strong> Unit Test 2 Project Description Report<br>
+                <strong>Format:</strong> Print-Ready Academic Proposal (A4)
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

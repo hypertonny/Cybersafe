@@ -1,0 +1,36 @@
+INVOICE #INV-2026-8841
+Date: 22 Sep 2026
+
+URGENT ACTION REQUIRED — Overdue payment detected
+
+Dear Customer,
+
+Your account has been SUSPENDED due to an unpaid balance of $3,847.00.
+
+To avoid permanent account termination and legal action within 24 HOURS, you must:
+
+1. Verify your billing credentials immediately:
+   http://secure-billing-update.xyz/invoice/restore?token=0xF3A9C
+
+2. Enter your full credit card number, CVV, and expiry date on the form.
+
+3. Provide your Social Security Number (SSN) for identity verification.
+
+DO NOT IGNORE THIS NOTICE. Failure to comply will result in:
+   - Immediate account termination
+   - Referral to our debt collection agency
+   - Legal proceedings filed in your jurisdiction
+
+Your temporary login password for this session: P@ssw0rd!2026
+API Key: sk-prod-xK9mP3nQ7rT2wL8vB5jZ1cY4hD6fN0sR
+
+If you believe this is an error, click the link below to dispute:
+http://paypal-secure-dispute.top/claim?ref=8841&redirect=http://malware-payload.ru/download
+
+Our security team at support@paypa1-billing.xyz is available 24/7.
+
+-- Automated Billing System
+   GlobalPay Financial Services
+   DO NOT REPLY TO THIS EMAIL
+
+[ATTACHMENT: Invoice_8841_OPEN_IMMEDIATELY.exe]
